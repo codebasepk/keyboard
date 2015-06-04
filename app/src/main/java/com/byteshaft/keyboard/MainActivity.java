@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.widget.Toast;
 
 
 public class MainActivity extends InputMethodService
@@ -16,8 +17,6 @@ public class MainActivity extends InputMethodService
     private Keyboard keyboard;
     private boolean caps = false;
 
-
-
     @Override
     public View onCreateInputView() {
         keyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -26,18 +25,18 @@ public class MainActivity extends InputMethodService
         return keyboardView;
     }
 
-
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
-        switch (attribute.inputType&EditorInfo.TYPE_MASK_CLASS) {
+        switch (attribute.inputType & EditorInfo.TYPE_MASK_CLASS) {
             case EditorInfo.TYPE_CLASS_NUMBER:
-            case EditorInfo.TYPE_CLASS_PHONE:
                 keyboard = new Keyboard(this, R.xml.numeric);
                 break;
             case EditorInfo.TYPE_CLASS_TEXT:
                 keyboard = new Keyboard(this, R.xml.alpha);
                 break;
+            default:
+                Toast.makeText(this, "alphaNumeric" , Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -46,7 +45,6 @@ public class MainActivity extends InputMethodService
     public void onStartInputView(EditorInfo info, boolean restarting) {
         keyboardView.setKeyboard(keyboard);
         keyboardView.closing();
-
 
     }
 
