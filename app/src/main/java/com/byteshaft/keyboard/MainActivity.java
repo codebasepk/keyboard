@@ -21,7 +21,6 @@ public class MainActivity extends InputMethodService
     @Override
     public View onCreateInputView() {
         keyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-        keyboard = new Keyboard(this, R.xml.alpha);
         keyboardView.setOnKeyboardActionListener(this);
         return keyboardView;
     }
@@ -36,7 +35,7 @@ public class MainActivity extends InputMethodService
                 keyboard = new Keyboard(this, R.xml.numeric);
                 break;
             case EditorInfo.TYPE_CLASS_TEXT:
-                keyboard = new Keyboard(this, R.xml.alpha);
+                keyboard = new Keyboard(this, R.xml.alphanumaric);
                 break;
 
         }
