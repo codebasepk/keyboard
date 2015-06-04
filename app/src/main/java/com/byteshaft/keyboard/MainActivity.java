@@ -46,8 +46,6 @@ public class MainActivity extends InputMethodService
     public void onStartInputView(EditorInfo info, boolean restarting) {
         keyboardView.setKeyboard(keyboard);
         keyboardView.closing();
-
-
     }
 
     @Override
