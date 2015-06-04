@@ -18,7 +18,7 @@ public class MainActivity extends InputMethodService
     @Override
     public View onCreateInputView() {
         kv = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-        keyboard = new Keyboard(this, R.xml.alpha);
+        keyboard = new Keyboard(this, R.xml.alphanumaric);
         kv.setKeyboard(keyboard);
         kv.setOnKeyboardActionListener(this);
         return kv;
