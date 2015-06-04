@@ -20,7 +20,6 @@ public class MainActivity extends InputMethodService
     @Override
     public View onCreateInputView() {
         keyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-        keyboard = new Keyboard(this, R.xml.alpha);
         keyboardView.setOnKeyboardActionListener(this);
         return keyboardView;
     }
@@ -36,8 +35,7 @@ public class MainActivity extends InputMethodService
                 keyboard = new Keyboard(this, R.xml.alpha);
                 break;
             default:
-                Toast.makeText(this, "alphaNumeric" , Toast.LENGTH_SHORT).show();
-
+                keyboard = new Keyboard(this, R.xml.alphanumaric);
         }
     }
 
@@ -73,36 +71,36 @@ public class MainActivity extends InputMethodService
 
     @Override
     public void onPress(int primaryCode) {
-        System.out.println(primaryCode);
+
     }
 
     @Override
     public void onRelease(int primaryCode) {
-        System.out.println("primarycode");
+
     }
 
     @Override
     public void onText(CharSequence text) {
-        System.out.println("charsequence");
+
     }
 
     @Override
     public void swipeDown() {
-        System.out.println("swipeDown");
+
     }
 
     @Override
     public void swipeLeft() {
-        System.out.println("swipeLeft");
+
     }
 
     @Override
     public void swipeRight() {
-        System.out.println("swiperight");
+
     }
 
     @Override
     public void swipeUp() {
-        System.out.println("swipeup");
+
     }
 }
