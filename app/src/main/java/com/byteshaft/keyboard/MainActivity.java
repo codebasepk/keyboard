@@ -32,7 +32,7 @@ public class MainActivity extends InputMethodService
                 keyboard = new Keyboard(this, R.xml.numeric);
                 break;
             case EditorInfo.TYPE_CLASS_TEXT:
-                keyboard = new Keyboard(this, R.xml.alpha);
+                keyboard = new Keyboard(this, R.xml.alphanumaric);
                 break;
             default:
                 keyboard = new Keyboard(this, R.xml.alphanumaric);

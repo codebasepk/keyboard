@@ -18,7 +18,7 @@
     </Row>
 
     <Row>
-        <Key android:codes="97"  android:keyLabel="A"  android:keyEdgeFlags="left" android:horizontalGap="2%p"   />
+        <Key android:codes="97"  android:keyLabel="A"  android:keyEdgeFlags="left" android:horizontalGap="2%p" />
         <Key android:codes="115" android:keyLabel="S"/>
         <Key android:codes="100" android:keyLabel="D"/>
         <Key android:codes="102" android:keyLabel="F"/>
