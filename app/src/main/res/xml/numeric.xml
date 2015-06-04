@@ -23,10 +23,10 @@
     <Key android:codes="51" android:keyLabel="3"/>
     </Row>
 
-    <Row>
+    <Row>key
         <Key android:codes="48" android:keyLabel="0" android:keyWidth="64%p"  android:keyEdgeFlags="left"/>
         <Key android:codes="-5"  android:keyWidth="30%p" android:horizontalGap="2%p"
-            android:keyEdgeFlags="right" android:keyIcon="@drawable/delete" android:isRepeatable="true"/>
+            android:keyEdgeFlags="right" android:keyIcon="@drawable/delete_key"  android:isRepeatable="true"/>
     </Row>
 
     </Keyboard>
