@@ -71,7 +71,6 @@ public class MainActivity extends InputMethodService
 
     @Override
     public void onPress(int primaryCode) {
-
     }
 
     @Override
