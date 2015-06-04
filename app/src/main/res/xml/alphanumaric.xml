@@ -51,6 +51,9 @@
         <Key android:codes="98" android:keyLabel="B"/>
         <Key android:codes="110" android:keyLabel="N"/>
         <Key android:codes="109" android:keyLabel="M"/>
+        <Key android:codes="44" android:keyLabel=","/>
+        <Key android:codes="46" android:keyLabel="."/>
+        <Key android:codes="47" android:keyLabel="/"/>
         <Key android:codes="-5"  android:keyWidth="20%p"
             android:keyEdgeFlags="right" android:keyIcon="@drawable/delete_key" android:isRepeatable="true"/>
     </Row>
