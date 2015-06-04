@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.widget.Toast;
 
 
 public class MainActivity extends InputMethodService
@@ -16,8 +17,6 @@ public class MainActivity extends InputMethodService
     private Keyboard keyboard;
     private boolean caps = false;
 
-
-
     @Override
     public View onCreateInputView() {
         keyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
@@ -25,19 +24,18 @@ public class MainActivity extends InputMethodService
         return keyboardView;
     }
 
-
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
-        switch (attribute.inputType&EditorInfo.TYPE_MASK_CLASS) {
+        switch (attribute.inputType & EditorInfo.TYPE_MASK_CLASS) {
             case EditorInfo.TYPE_CLASS_NUMBER:
-            case EditorInfo.TYPE_CLASS_PHONE:
                 keyboard = new Keyboard(this, R.xml.numeric);
                 break;
             case EditorInfo.TYPE_CLASS_TEXT:
                 keyboard = new Keyboard(this, R.xml.alphanumaric);
                 break;
-
+            default:
+                keyboard = new Keyboard(this, R.xml.alphanumaric);
         }
     }
 
@@ -73,36 +71,36 @@ public class MainActivity extends InputMethodService
 
     @Override
     public void onPress(int primaryCode) {
-        System.out.println(primaryCode);
+
     }
 
     @Override
     public void onRelease(int primaryCode) {
-        System.out.println("primarycode");
+
     }
 
     @Override
     public void onText(CharSequence text) {
-        System.out.println("charsequence");
+
     }
 
     @Override
     public void swipeDown() {
-        System.out.println("swipeDown");
+
     }
 
     @Override
     public void swipeLeft() {
-        System.out.println("swipeLeft");
+
     }
 
     @Override
     public void swipeRight() {
-        System.out.println("swiperight");
+
     }
 
     @Override
     public void swipeUp() {
-        System.out.println("swipeup");
+
     }
 }
