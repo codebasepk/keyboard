@@ -15,10 +15,9 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".MainActivity"
-            android:label="simple"
-            android:permission="android.permission.BIND_INPUT_METHOD" >
+        <service android:name=".MainActivity"
+            android:label="keyboard"
+            android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data android:name="android.view.im" android:resource="@xml/method"/>
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
