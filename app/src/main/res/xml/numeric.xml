@@ -2,8 +2,7 @@
     android:keyWidth="40%p"
     android:horizontalGap="8px"
     android:verticalGap="10px"
-    android:keyHeight="50dp"
-    >
+    android:keyHeight="50dp">
 
     <Row>
         <Key android:codes="55" android:keyLabel="7" android:keyEdgeFlags="left"/>
@@ -18,15 +17,17 @@
     </Row>
 
     <Row>
-    <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"/>
-    <Key android:codes="50" android:keyLabel="2"/>
-    <Key android:codes="51" android:keyLabel="3"/>
+        <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"/>
+        <Key android:codes="50" android:keyLabel="2"/>
+        <Key android:codes="51" android:keyLabel="3"/>
     </Row>
 
-    <Row>key
-        <Key android:codes="48" android:keyLabel="0" android:keyWidth="70%p"  android:keyEdgeFlags="left"/>
+    <Row>
+        <Key android:codes="48" android:keyLabel="0" android:keyWidth="70%p"
+            android:keyEdgeFlags="left"/>
         <Key android:codes="-5"  android:keyWidth="30%p" android:horizontalGap="2%p"
-            android:keyEdgeFlags="right"  android:keyIcon="@drawable/delete_key"  android:isRepeatable="true"/>
+            android:keyEdgeFlags="right"  android:keyIcon="@drawable/delete_key"
+            android:isRepeatable="true"/>
     </Row>
 
-    </Keyboard>
+</Keyboard>
