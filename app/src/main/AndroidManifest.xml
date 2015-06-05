@@ -24,5 +24,11 @@
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
+
+        <activity android:name=".Settings" android:label="Preferences">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
