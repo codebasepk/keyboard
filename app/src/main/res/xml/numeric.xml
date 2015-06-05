@@ -33,7 +33,7 @@
     </Row>
 
     <Row>key
-        <Key android:codes="48" android:keyLabel="0" android:keyWidth="67.48%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="48" android:keyLabel="0" android:keyWidth="67.30%p"  android:keyEdgeFlags="left"/>
         <Key android:codes="-5"  android:keyWidth="33.40%p"
             android:keyEdgeFlags="right"  android:keyIcon="@drawable/delete_key"  android:isRepeatable="true"/>
     </Row>
