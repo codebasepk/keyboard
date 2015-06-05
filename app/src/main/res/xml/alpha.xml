@@ -6,7 +6,7 @@
 
     <Row>
         <Key android:codes="113" android:keyLabel="Q" android:keyEdgeFlags="left"
-            android:keyWidth="9.6%p"/>
+            android:keyWidth="9.6%p" />
         <Key android:codes="119" android:keyLabel="W" android:keyWidth="9.6%p"/>
         <Key android:codes="101" android:keyLabel="E" android:keyWidth="9.6%p"/>
         <Key android:codes="114" android:keyLabel="R" android:keyWidth="9.6%p"/>
