@@ -3,6 +3,6 @@
      android:layout_width="fill_parent">
     <subtype
         android:label="@string/subtype_en_US"
-        android:imeSubtypeLocale="en_US"
+        android:imeSubtypeLocale="en_UK"
         android:imeSubtypeMode="keyboard" />
 </input-method>
