@@ -17,6 +17,17 @@
     </Row>
 
     <Row>
+<<<<<<< HEAD
+        <Key android:codes="97"  android:keyLabel="A"  android:keyEdgeFlags="left" android:horizontalGap="2%p"/>
+        <Key android:codes="115" android:keyLabel="S"/>
+        <Key android:codes="100" android:keyLabel="D"/>
+        <Key android:codes="102" android:keyLabel="F"/>
+        <Key android:codes="103" android:keyLabel="G"/>
+        <Key android:codes="104" android:keyLabel="H"/>
+        <Key android:codes="106" android:keyLabel="J"/>
+        <Key android:codes="107" android:keyLabel="K"/>
+        <Key android:codes="108" android:keyLabel="L"/>
+=======
         <Key android:codes="97"  android:keyLabel="A" android:keyWidth="10.3%p"  android:keyEdgeFlags="left" android:horizontalGap="2%p"   />
         <Key android:codes="115" android:keyLabel="S" android:keyWidth="10.3%p"/>
         <Key android:codes="100" android:keyLabel="D" android:keyWidth="10.3%p"/>
@@ -26,6 +37,7 @@
         <Key android:codes="106" android:keyLabel="J" android:keyWidth="10.3%p"/>
         <Key android:codes="107" android:keyLabel="K" android:keyWidth="10.3%p"/>
         <Key android:codes="108" android:keyLabel="L" android:keyWidth="10.3%p"/>
+>>>>>>> origin/master
     </Row>
 
     <Row>
