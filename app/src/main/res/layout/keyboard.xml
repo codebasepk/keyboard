@@ -6,8 +6,9 @@
     android:layout_centerHorizontal="true"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom"
+    android:keyTextSize="26sp"
     android:paddingTop="5dp"
     android:paddingRight="4dp"
-    android:keyBackground="@drawable/grey_background"
-    android:keyTextColor="#fff"
-    android:background="#000000"/>
+    android:keyBackground="@layout/rounded_corner"
+    android:keyTextColor="@color/key_color"
+    android:background="@color/keyboard_background"/>

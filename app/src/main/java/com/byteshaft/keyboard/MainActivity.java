@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 
+import java.util.Arrays;
+
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
 
@@ -47,10 +49,12 @@ public class MainActivity extends InputMethodService implements
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        InputConnection ic = getCurrentInputConnection();
+        System.out.println(primaryCode);
+        System.out.println(Arrays.toString(keyCodes));
+        InputConnection inputConnection = getCurrentInputConnection();
         switch(primaryCode){
             case Keyboard.KEYCODE_DELETE :
-                ic.deleteSurroundingText(1, 0);
+                inputConnection.deleteSurroundingText(1, 0);
                 break;
             case Keyboard.KEYCODE_SHIFT:
                 isCapsLockEnabled = !isCapsLockEnabled;
@@ -58,14 +62,14 @@ public class MainActivity extends InputMethodService implements
                 mKeyboardView.invalidateAllKeys();
                 break;
             case Keyboard.KEYCODE_DONE:
-                ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
+                inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 break;
             default:
                 char code = (char) primaryCode;
                 if(Character.isLetter(code) && isCapsLockEnabled){
                     code = Character.toUpperCase(code);
                 }
-                ic.commitText(String.valueOf(code),1);
+                inputConnection.commitText(String.valueOf(code),1);
         }
     }
 
