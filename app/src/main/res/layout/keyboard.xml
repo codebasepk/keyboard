@@ -6,7 +6,7 @@
     android:layout_centerHorizontal="true"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom"
-    android:paddingTop="2dp"
+    android:paddingTop="5dp"
     android:paddingRight="4dp"
     android:keyBackground="@drawable/grey_background"
     android:keyTextColor="#fff"

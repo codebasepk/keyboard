@@ -1,8 +1,8 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
-    android:keyWidth="40%p"
+    android:keyWidth="36%p"
     android:horizontalGap="8px"
     android:verticalGap="10px"
-    android:keyHeight="50dp"
+    android:keyHeight="11%p"
     >
 
     <Row>
@@ -33,7 +33,7 @@
     </Row>
 
     <Row>key
-        <Key android:codes="48" android:keyLabel="0" android:keyWidth="67.48%p"  android:keyEdgeFlags="left"/>
+        <Key android:codes="48" android:keyLabel="0" android:keyWidth="67.30%p"  android:keyEdgeFlags="left"/>
         <Key android:codes="-5"  android:keyWidth="33.40%p"
             android:keyEdgeFlags="right"  android:keyIcon="@drawable/delete_key"  android:isRepeatable="true"/>
     </Row>
