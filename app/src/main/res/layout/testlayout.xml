@@ -28,7 +28,6 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text|number"
         android:ems="10"
         android:hint="Number And text"
         android:id="@+id/editText3"

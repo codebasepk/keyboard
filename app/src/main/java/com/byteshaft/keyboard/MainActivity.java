@@ -29,17 +29,19 @@ public class MainActivity extends InputMethodService implements
             case EditorInfo.TYPE_CLASS_NUMBER:
                 mKeyboard = new Keyboard(this, R.xml.numeric);
                 break;
-            case EditorInfo.TYPE_CLASS_PHONE:
-                mKeyboard = new Keyboard(this, R.xml.alphanumaric);
+            case EditorInfo.TYPE_CLASS_TEXT:
+                mKeyboard = new Keyboard(this, R.xml.alpha);
                 break;
             default:
-                mKeyboard = new Keyboard(this, R.xml.alpha);
+                mKeyboard = new Keyboard(this, R.xml.alphanumaric);
+                break;
         }
     }
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
         mKeyboardView.setKeyboard(mKeyboard);
+        mKeyboardView.setPreviewEnabled(false);
         mKeyboardView.closing();
     }
 
