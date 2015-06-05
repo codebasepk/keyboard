@@ -6,6 +6,5 @@
     android:textStyle="bold"
     android:background="#fff"
     android:textSize="30sp"
-    android:fontFamily="Roboto bold"
-    >
+    android:fontFamily="Roboto bold">
 </TextView>

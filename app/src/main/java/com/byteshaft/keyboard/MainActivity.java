@@ -7,21 +7,19 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.widget.Toast;
 
+public class MainActivity extends InputMethodService implements
+        KeyboardView.OnKeyboardActionListener {
 
-public class MainActivity extends InputMethodService
-        implements KeyboardView.OnKeyboardActionListener {
-
-    private KeyboardView keyboardView;
-    private Keyboard keyboard;
-    private boolean caps = false;
+    private KeyboardView mKeyboardView;
+    private Keyboard mKeyboard;
+    private boolean isCapsLockEnabled;
 
     @Override
     public View onCreateInputView() {
-        keyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
-        keyboardView.setOnKeyboardActionListener(this);
-        return keyboardView;
+        mKeyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        mKeyboardView.setOnKeyboardActionListener(this);
+        return mKeyboardView;
     }
 
     @Override
@@ -29,20 +27,20 @@ public class MainActivity extends InputMethodService
         super.onStartInput(attribute, restarting);
         switch (attribute.inputType & EditorInfo.TYPE_MASK_CLASS) {
             case EditorInfo.TYPE_CLASS_NUMBER:
-                keyboard = new Keyboard(this, R.xml.numeric);
+                mKeyboard = new Keyboard(this, R.xml.numeric);
                 break;
             case EditorInfo.TYPE_CLASS_TEXT:
-                keyboard = new Keyboard(this, R.xml.alphanumaric);
+                mKeyboard = new Keyboard(this, R.xml.alphanumaric);
                 break;
             default:
-                keyboard = new Keyboard(this, R.xml.alphanumaric);
+                mKeyboard = new Keyboard(this, R.xml.alphanumaric);
         }
     }
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
-        keyboardView.setKeyboard(keyboard);
-        keyboardView.closing();
+        mKeyboardView.setKeyboard(mKeyboard);
+        mKeyboardView.closing();
     }
 
     @Override
@@ -53,24 +51,24 @@ public class MainActivity extends InputMethodService
                 ic.deleteSurroundingText(1, 0);
                 break;
             case Keyboard.KEYCODE_SHIFT:
-                caps = !caps;
-                keyboard.setShifted(caps);
-                keyboardView.invalidateAllKeys();
+                isCapsLockEnabled = !isCapsLockEnabled;
+                mKeyboard.setShifted(isCapsLockEnabled);
+                mKeyboardView.invalidateAllKeys();
                 break;
             case Keyboard.KEYCODE_DONE:
                 ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 break;
             default:
-                char code = (char)primaryCode;
-                if(Character.isLetter(code) && caps){
+                char code = (char) primaryCode;
+                if(Character.isLetter(code) && isCapsLockEnabled){
                     code = Character.toUpperCase(code);
                 }
                 ic.commitText(String.valueOf(code),1);
         }
     }
 
-    @Override
-    public void onPress(int primaryCode) {
+    @Override public void onPress(int primaryCode) {
+        
     }
 
     @Override
