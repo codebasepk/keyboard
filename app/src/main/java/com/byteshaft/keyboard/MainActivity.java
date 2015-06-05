@@ -29,11 +29,11 @@ public class MainActivity extends InputMethodService implements
             case EditorInfo.TYPE_CLASS_NUMBER:
                 mKeyboard = new Keyboard(this, R.xml.numeric);
                 break;
-            case EditorInfo.TYPE_CLASS_TEXT:
+            case EditorInfo.TYPE_CLASS_PHONE:
                 mKeyboard = new Keyboard(this, R.xml.alphanumaric);
                 break;
             default:
-                mKeyboard = new Keyboard(this, R.xml.alphanumaric);
+                mKeyboard = new Keyboard(this, R.xml.alpha);
         }
     }
 
