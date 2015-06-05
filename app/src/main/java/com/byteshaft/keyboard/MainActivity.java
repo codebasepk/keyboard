@@ -57,8 +57,6 @@ public class MainActivity extends InputMethodService implements
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        System.out.println(primaryCode);
-        System.out.println(Arrays.toString(keyCodes));
         InputConnection inputConnection = getCurrentInputConnection();
         switch(primaryCode){
             case Keyboard.KEYCODE_DELETE :
