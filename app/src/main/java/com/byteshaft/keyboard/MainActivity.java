@@ -34,12 +34,14 @@ public class MainActivity extends InputMethodService implements
                 break;
             default:
                 mKeyboard = new Keyboard(this, R.xml.alphanumaric);
+                break;
         }
     }
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
         mKeyboardView.setKeyboard(mKeyboard);
+        mKeyboardView.setPreviewEnabled(false);
         mKeyboardView.closing();
     }
 
