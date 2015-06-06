@@ -25,7 +25,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Settings" android:label="Preferences">
+        <activity android:name=".Settings" android:label="Preferences"
+            android:theme="@style/PreferencesTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>

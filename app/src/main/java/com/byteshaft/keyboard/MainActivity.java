@@ -13,19 +13,16 @@ import android.view.inputmethod.InputConnection;
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
 
-    private KeyboardView mKeyboardView;
+    private CustomKeyboardView mKeyboardView;
     private Keyboard mKeyboard;
     private boolean isCapsLockEnabled;
 
     @Override
     public View onCreateInputView() {
-        mKeyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        mKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboardView.setOnKeyboardActionListener(this);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String textColor = preferences.getString("textColor", "#ffffff");
-        String buttonColor = preferences.getString("buttonColor", "#000000");
-        String backgroundColor = preferences.getString("backgroundColor", "#000000");
         return mKeyboardView;
     }
 
@@ -36,7 +33,7 @@ public class MainActivity extends InputMethodService implements
         String keyboardPreference = preferences.getString("keyboardType", "2");
 
 
-        switch (keyboardPreference ) {
+        switch (keyboardPreference) {
             case "1":
                 mKeyboard = new Keyboard(this, R.xml.alpha);
                 break;
