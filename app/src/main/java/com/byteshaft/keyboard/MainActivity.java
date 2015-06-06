@@ -25,8 +25,15 @@ public class MainActivity extends InputMethodService implements
     }
 
     @Override
+    public void onUpdateExtractingViews(EditorInfo ei) {
+        ei.imeOptions |= EditorInfo.IME_FLAG_NO_EXTRACT_UI;
+        super.onUpdateExtractingViews(ei);
+    }
+
+    @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        onUpdateExtractingViews(attribute);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String keyboardPreference = preferences.getString("keyboardType", "2");
 
@@ -73,6 +80,8 @@ public class MainActivity extends InputMethodService implements
                 inputConnection.commitText(String.valueOf(code),1);
         }
     }
+
+
 
     @Override public void onPress(int primaryCode) {
 
