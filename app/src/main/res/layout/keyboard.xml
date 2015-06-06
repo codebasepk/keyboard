@@ -1,14 +1,9 @@
-<android.inputmethodservice.KeyboardView
+<com.byteshaft.keyboard.CustomKeyboardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/keyboard"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
     android:layout_alignParentBottom="true"
-    android:layout_gravity="bottom"
-    android:keyTextSize="26sp"
-    android:paddingTop="5dp"
-    android:paddingRight="4dp"
-    android:keyBackground="@layout/rounded_corner"
+    android:keyBackground="@drawable/rounded_corner"
     android:keyTextColor="@color/key_color"
     android:background="@color/keyboard_background"/>

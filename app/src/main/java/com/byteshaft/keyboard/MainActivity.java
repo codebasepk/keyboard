@@ -13,13 +13,13 @@ import java.util.Arrays;
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
 
-    private KeyboardView mKeyboardView;
+    private CustomKeyboardView mKeyboardView;
     private Keyboard mKeyboard;
     private boolean isCapsLockEnabled;
 
     @Override
     public View onCreateInputView() {
-        mKeyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
+        mKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboardView.setOnKeyboardActionListener(this);
         return mKeyboardView;
     }
@@ -49,8 +49,6 @@ public class MainActivity extends InputMethodService implements
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        System.out.println(primaryCode);
-        System.out.println(Arrays.toString(keyCodes));
         InputConnection inputConnection = getCurrentInputConnection();
         switch(primaryCode){
             case Keyboard.KEYCODE_DELETE :
