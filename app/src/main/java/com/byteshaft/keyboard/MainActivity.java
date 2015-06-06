@@ -30,7 +30,6 @@ public class MainActivity extends InputMethodService implements
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String keyboardPreference = preferences.getString("keyboardkey", "2");
 
@@ -57,8 +56,6 @@ public class MainActivity extends InputMethodService implements
 
     @Override
     public void onKey(int primaryCode, int[] keyCodes) {
-        System.out.println(primaryCode);
-        System.out.println(Arrays.toString(keyCodes));
         InputConnection inputConnection = getCurrentInputConnection();
         switch(primaryCode){
             case Keyboard.KEYCODE_DELETE :
