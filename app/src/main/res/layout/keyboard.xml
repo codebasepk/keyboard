@@ -8,7 +8,7 @@
     android:layout_gravity="bottom"
     android:keyTextSize="26sp"
     android:paddingTop="5dp"
-    android:paddingRight="220dp"
+    android:paddingRight="250dp"
     android:keyBackground="@drawable/key_background"
     android:keyTextColor="@color/key_text_color"
     android:background="@color/black_color"/>
