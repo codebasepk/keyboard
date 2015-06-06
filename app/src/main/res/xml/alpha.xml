@@ -31,8 +31,8 @@
     </Row>
 
     <Row>
-        <Key android:codes="32"  android:keyLabel="SPACE" android:keyWidth="15%p"
-            android:keyEdgeFlags="left" android:isRepeatable="true"/>
+        <Key android:codes="32"  android:keyLabel="space" android:keyWidth="15%p"
+            android:isRepeatable="true"/>
         <Key android:codes="122" android:keyLabel="Z"/>
         <Key android:codes="120" android:keyLabel="X"/>
         <Key android:codes="99"  android:keyLabel="C"/>
@@ -40,8 +40,7 @@
         <Key android:codes="98"  android:keyLabel="B"/>
         <Key android:codes="110" android:keyLabel="N"/>
         <Key android:codes="109" android:keyLabel="M"/>
-        <Key android:codes="-5"  android:keyWidth="15%p"
-            android:keyEdgeFlags="right" android:keyIcon="@drawable/backspace_icon"
+        <Key android:codes="-5"  android:keyLabel="delete" android:keyWidth="15%p"
             android:isRepeatable="true"/>
     </Row>
 
