@@ -31,15 +31,35 @@ public class CustomKeyboardView extends KeyboardView {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
 
         String textColor = preferences.getString("textColor", "#ffffff");
-        String buttonColor = preferences.getString("buttonColor", "#000000");
+        String buttonColor = preferences.getString("buttonColor", "#83838b");
         String backgroundColor = preferences.getString("backgroundColor", "#000000");
+        if (textColor == "") {
+            textColor = "#ffffff";
+        }
+        if (buttonColor == "") {
+            buttonColor = "#83838b";
+        }
+        if (backgroundColor == "") {
+            backgroundColor = "#000000";
+        }
+        if (!textColor.startsWith("#")) {
+            textColor = "#" + textColor;
+        }
+        if (!buttonColor.startsWith("#")) {
+            buttonColor = "#" + buttonColor;
+        }
+        if (!backgroundColor.startsWith("#")) {
+            backgroundColor = "#" + backgroundColor;
+        }
+
+        System.out.println(textColor);
+        System.out.println(buttonColor);
+        System.out.println(backgroundColor);
 
         ShapeDrawable background = new ShapeDrawable(new RectShape());
         background.getPaint().setColor(Color.parseColor(backgroundColor));
         background.setBounds((int) getX(), (int) getY(), (int) getX() + getWidth(), (int) getY() + getHeight());
         background.draw(canvas);
-
-
 
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
         shape.getPaint().setColor(Color.parseColor(buttonColor));
@@ -53,7 +73,7 @@ public class CustomKeyboardView extends KeyboardView {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(getDip(40));
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.parseColor(textColor));
         
         List<Keyboard.Key> keys = getKeyboard().getKeys();
         for(Keyboard.Key key: keys) {
