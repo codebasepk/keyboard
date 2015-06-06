@@ -33,8 +33,8 @@
     </Row>
 
     <Row>
-        <Key android:codes="97"  android:keyLabel="A" android:keyWidth="9.4%p"
-            android:keyEdgeFlags="left" android:horizontalGap="5.25%p"/>
+        <Key android:horizontalGap="5.25%p" android:codes="97"  android:keyLabel="A" android:keyWidth="9.4%p"
+            android:keyEdgeFlags="right" />
         <Key android:codes="115" android:keyLabel="S" android:keyWidth="9.4%p"/>
         <Key android:codes="100" android:keyLabel="D" android:keyWidth="9.4%p"/>
         <Key android:codes="102" android:keyLabel="F" android:keyWidth="9.4%p"/>
