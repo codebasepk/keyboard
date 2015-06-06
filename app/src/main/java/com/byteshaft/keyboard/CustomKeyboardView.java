@@ -57,9 +57,6 @@ public class CustomKeyboardView extends KeyboardView {
             textColor = "#ffffff";
         }
 
-        System.out.println(textColor);
-        System.out.println(buttonColor);
-        System.out.println(backgroundColor);
 
         ShapeDrawable background = new ShapeDrawable(new RectShape());
         background.getPaint().setColor(Color.parseColor(backgroundColor));
@@ -82,7 +79,6 @@ public class CustomKeyboardView extends KeyboardView {
         
         List<Keyboard.Key> keys = getKeyboard().getKeys();
         for(Keyboard.Key key: keys) {
-            System.out.println(key.label);
             if (key.label.equals("space") || key.label.equals("delete")) {
                 shape.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 shape1.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
