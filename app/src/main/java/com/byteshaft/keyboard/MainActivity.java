@@ -1,5 +1,6 @@
 package com.byteshaft.keyboard;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
@@ -9,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -21,17 +23,22 @@ public class MainActivity extends InputMethodService implements
     public View onCreateInputView() {
         mKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboardView.setOnKeyboardActionListener(this);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         return mKeyboardView;
     }
 
     @Override
+    public void onUpdateExtractingViews(EditorInfo ei) {
+        ei.imeOptions |= EditorInfo.IME_FLAG_NO_EXTRACT_UI;
+        super.onUpdateExtractingViews(ei);
+    }
+
+    @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        onUpdateExtractingViews(attribute);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String keyboardPreference = preferences.getString("keyboardType", "2");
-
 
         switch (keyboardPreference) {
             case "1":
@@ -76,6 +83,8 @@ public class MainActivity extends InputMethodService implements
                 inputConnection.commitText(String.valueOf(code),1);
         }
     }
+
+
 
     @Override public void onPress(int primaryCode) {
         
