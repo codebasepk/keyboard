@@ -1,6 +1,7 @@
 package com.byteshaft.keyboard;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +9,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.inputmethodservice.*;
 import android.inputmethodservice.Keyboard;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
@@ -15,24 +17,36 @@ import java.util.List;
 
 public class CustomKeyboardView extends KeyboardView {
 
+    private Context mContext;
+
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
+
+        String textColor = preferences.getString("textColor", "#ffffff");
+        String buttonColor = preferences.getString("buttonColor", "#000000");
+        String backgroundColor = preferences.getString("backgroundColor", "#000000");
+
         ShapeDrawable background = new ShapeDrawable(new RectShape());
-        background.getPaint().setColor(Color.BLACK);
+        background.getPaint().setColor(Color.parseColor(backgroundColor));
         background.setBounds((int) getX(), (int) getY(), (int) getX() + getWidth(), (int) getY() + getHeight());
         background.draw(canvas);
 
+
+
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
-        shape.getPaint().setColor(Color.DKGRAY);
+        shape.getPaint().setColor(Color.parseColor(buttonColor));
         shape.getPaint().setStyle(Paint.Style.FILL);
 
         ShapeDrawable shape1 = new ShapeDrawable(new RectShape());
-        shape1.getPaint().setColor(Color.BLACK);
+        shape1.getPaint().setColor(Color.parseColor(backgroundColor));
         shape1.getPaint().setStyle(Paint.Style.STROKE);
         shape1.getPaint().setStrokeWidth(getDensityPixels(5));
 
@@ -40,7 +54,7 @@ public class CustomKeyboardView extends KeyboardView {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(getDip(40));
         paint.setColor(Color.WHITE);
-
+        
         List<Keyboard.Key> keys = getKeyboard().getKeys();
         for(Keyboard.Key key: keys) {
             if(key.label != null) {

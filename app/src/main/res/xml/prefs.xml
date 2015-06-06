@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
     <ListPreference
         android:title="Keyboard Type"
         android:summary="Select the type of keyboard"
-        android:key="keyboardkey"
+        android:key="keyboardType"
         android:defaultValue="2"
         android:entries="@array/listArray"
-        android:entryValues="@array/listValues" />
+        android:entryValues="@array/listValues"/>
+
+    <PreferenceCategory
+        android:title="Keyboard Theme"
+        android:summary="Add color code or leave the field empty for default color">
+    <EditTextPreference
+        android:key="textColor"
+        android:title="Text Color"
+        android:summary="Change the text color of the keys"
+        android:defaultValue="#"/>
+    <EditTextPreference
+        android:title="Button Color"
+        android:key="buttonColor"
+        android:summary="Change the color of the keys"/>
+    <EditTextPreference
+        android:title="Background Color"
+        android:key="backgroundColor"
+        android:summary="Change the background color of the keyboard"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>
