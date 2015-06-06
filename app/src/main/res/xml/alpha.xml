@@ -42,7 +42,7 @@
         <Key android:codes="110" android:keyLabel="N" android:keyWidth="9.4%p"/>
         <Key android:codes="109" android:keyLabel="M" android:keyWidth="9.4%p"/>
         <Key android:codes="-5"  android:keyWidth="14.7%p"
-            android:keyEdgeFlags="right" android:keyIcon="@drawable/delete_key"
+            android:keyEdgeFlags="right" android:keyIcon="@drawable/backspace_icon"
             android:isRepeatable="true"/>
     </Row>
 
