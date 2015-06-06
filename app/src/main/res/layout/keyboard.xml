@@ -10,5 +10,5 @@
     android:paddingTop="5dp"
     android:paddingRight="220dp"
     android:keyBackground="@drawable/key_background"
-    android:keyTextColor="@color/white_color"
+    android:keyTextColor="@color/key_text_color"
     android:background="@color/black_color"/>
