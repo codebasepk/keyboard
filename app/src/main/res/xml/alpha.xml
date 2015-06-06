@@ -31,7 +31,7 @@
     </Row>
 
     <Row>
-        <Key android:codes="32"  android:keyLabel="space" android:keyWidth="15%p"
+        <Key android:codes="32"  android:keyLabel="space" android:keyWidth="10%p"
             android:isRepeatable="true"/>
         <Key android:codes="122" android:keyLabel="Z"/>
         <Key android:codes="120" android:keyLabel="X"/>
@@ -40,7 +40,7 @@
         <Key android:codes="98"  android:keyLabel="B"/>
         <Key android:codes="110" android:keyLabel="N"/>
         <Key android:codes="109" android:keyLabel="M"/>
-        <Key android:codes="-5"  android:keyLabel="delete" android:keyWidth="15%p"
+        <Key android:codes="-5"  android:keyLabel="←" android:keyWidth="20%p"
             android:isRepeatable="true"/>
     </Row>
 
