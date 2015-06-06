@@ -21,8 +21,6 @@ public class MainActivity extends InputMethodService implements
     public View onCreateInputView() {
         mKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboardView.setOnKeyboardActionListener(this);
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         return mKeyboardView;
     }
 
@@ -31,7 +29,6 @@ public class MainActivity extends InputMethodService implements
         super.onStartInput(attribute, restarting);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String keyboardPreference = preferences.getString("keyboardType", "2");
-
 
         switch (keyboardPreference) {
             case "1":
@@ -78,7 +75,7 @@ public class MainActivity extends InputMethodService implements
     }
 
     @Override public void onPress(int primaryCode) {
-        
+
     }
 
     @Override

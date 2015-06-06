@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.inputmethodservice.*;
 import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
@@ -20,6 +21,9 @@ import java.util.List;
 public class CustomKeyboardView extends KeyboardView {
 
     private Context mContext;
+    private ShapeDrawable mButtonInner;
+    private ShapeDrawable mButtonStroke;
+    private Paint mPaint;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -29,9 +33,7 @@ public class CustomKeyboardView extends KeyboardView {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
-
+        SharedPreferences preferences = getPreferenceManager();
         String textColor = preferences.getString("textColor", "#ffffff");
         String buttonColor = preferences.getString("buttonColor", "#333333");
         String backgroundColor = preferences.getString("backgroundColor", "#000000");
@@ -57,51 +59,59 @@ public class CustomKeyboardView extends KeyboardView {
             textColor = "#ffffff";
         }
 
-        System.out.println(textColor);
-        System.out.println(buttonColor);
-        System.out.println(backgroundColor);
+        drawKeyboardBackground(canvas, backgroundColor);
 
-        ShapeDrawable background = new ShapeDrawable(new RectShape());
-        background.getPaint().setColor(Color.parseColor(backgroundColor));
-        background.setBounds((int) getX(), (int) getY(), (int) getX() + getWidth(), (int) getY() + getHeight());
-        background.draw(canvas);
+        if (mButtonInner == null) {
+            mButtonInner = new ShapeDrawable(new RectShape());
+            mButtonInner.getPaint().setColor(Color.parseColor(buttonColor));
+            mButtonInner.getPaint().setStyle(Paint.Style.FILL);
+        }
 
-        ShapeDrawable shape = new ShapeDrawable(new RectShape());
-        shape.getPaint().setColor(Color.parseColor(buttonColor));
-        shape.getPaint().setStyle(Paint.Style.FILL);
+        if (mButtonStroke == null) {
+            mButtonStroke = new ShapeDrawable(new RoundRectShape(getEightEdgeArrayForCurve(), null, null));
+            mButtonStroke.getPaint().setColor(Color.parseColor(backgroundColor));
+            mButtonStroke.getPaint().setStyle(Paint.Style.STROKE);
+            mButtonStroke.getPaint().setStrokeWidth(getDensityPixels(5));
+            mButtonStroke.getPaint().setAntiAlias(true);
+        }
 
-        ShapeDrawable shape1 = new ShapeDrawable(new RectShape());
-        shape1.getPaint().setColor(Color.parseColor(backgroundColor));
-        shape1.getPaint().setStyle(Paint.Style.STROKE);
-        shape1.getPaint().setStrokeWidth(getDensityPixels(5));
-
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(getDip(40));
-        paint.setColor(Color.parseColor(textColor));
+        if (mPaint == null) {
+            mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            mPaint.setTextAlign(Paint.Align.CENTER);
+            int scaledSize = getResources().getDimensionPixelSize(R.dimen.myFontSize);
+            mPaint.setTextSize(scaledSize);
+            mPaint.setColor(Color.parseColor(textColor));
+        }
         
         List<Keyboard.Key> keys = getKeyboard().getKeys();
         for(Keyboard.Key key: keys) {
-            System.out.println(key.label);
             if (key.label.equals("space") || key.label.equals("delete")) {
-                shape.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                shape1.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                shape.draw(canvas);
-                shape1.draw(canvas);
-                canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2), paint);
+                mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                mButtonInner.draw(canvas);
+                mButtonStroke.draw(canvas);
+                canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2), mPaint);
             } else if (key.label != null) {
-                shape.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                shape1.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                shape.draw(canvas);
-                shape1.draw(canvas);
-                Rect areaRect = new Rect(key.x, key.y, key.x + key.width, key.y + key.height);
-                RectF bounds = new RectF(areaRect);
-                bounds.right = paint.measureText(key.label.toString(), 0, key.label.toString().length());
-                bounds.bottom = paint.descent() - paint.ascent();
-                bounds.left += (areaRect.width() - bounds.right) / 2.0f;
-                bounds.top += (areaRect.height() - bounds.bottom) / 2.0f;
-                paint.setColor(Color.parseColor(textColor));
-                canvas.drawText(key.label.toString(), bounds.left + paint.descent(), bounds.top - paint.ascent(), paint);
+                mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                mButtonInner.draw(canvas);
+                mButtonStroke.draw(canvas);
+                RectF bounds = getTextAreaBoundsForKey(key);
+                canvas.drawText(key.label.toString(), bounds.left + mPaint.descent(), bounds.top - mPaint.ascent(), mPaint);
+            }
+            if (key.pressed) {
+                ShapeDrawable buttonStateNormal = new ShapeDrawable(new RectShape());
+                buttonStateNormal.getPaint().setColor(Color.RED);
+                buttonStateNormal.getPaint().setStyle(Paint.Style.FILL);
+                buttonStateNormal.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                buttonStateNormal.draw(canvas);
+                mButtonStroke.draw(canvas);
+                if (key.label.equals("space") || key.label.equals("delete")) {
+                    canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2), mPaint);
+                } else {
+                    RectF bounds = getTextAreaBoundsForKey(key);
+                    canvas.drawText(key.label.toString(), bounds.left + mPaint.descent(), bounds.top - mPaint.ascent(), mPaint);
+                }
             }
         }
     }
@@ -111,8 +121,29 @@ public class CustomKeyboardView extends KeyboardView {
                 TypedValue.COMPLEX_UNIT_DIP, pixels, getResources().getDisplayMetrics());
     }
 
-    int getDip(int MY_DIP_VALUE) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                MY_DIP_VALUE, getResources().getDisplayMetrics());
+    private void drawKeyboardBackground(Canvas canvas, String color) {
+        ShapeDrawable background = new ShapeDrawable(new RectShape());
+        background.getPaint().setColor(Color.parseColor(color));
+        background.setBounds((int) getX(), (int) getY(), (int) getX() + getWidth(), (int) getY() + getHeight());
+        background.draw(canvas);
+    }
+
+    private SharedPreferences getPreferenceManager() {
+        return PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
+    }
+
+    private float[] getEightEdgeArrayForCurve() {
+        int radius = (int) getDensityPixels(4);
+        return new float[] {radius, radius, radius, radius, radius, radius, radius, radius};
+    }
+
+    private RectF getTextAreaBoundsForKey(Keyboard.Key key) {
+        Rect areaRect = new Rect(key.x, key.y, key.x + key.width, key.y + key.height);
+        RectF bounds = new RectF(areaRect);
+        bounds.right = mPaint.measureText(key.label.toString(), 0, key.label.toString().length());
+        bounds.bottom = mPaint.descent() - mPaint.ascent();
+        bounds.left += (areaRect.width() - bounds.right) / 2.0f;
+        bounds.top += (areaRect.height() - bounds.bottom) / 2.0f;
+        return bounds;
     }
 }
