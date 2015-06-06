@@ -35,7 +35,7 @@
         <Key android:codes="48" android:keyLabel="0" android:keyWidth="33%p"
             android:keyEdgeFlags="left" android:horizontalGap="23%p"/>
         <Key android:codes="-5"  android:keyWidth="15.40%p" android:horizontalGap="2%p"
-            android:keyEdgeFlags="right"  android:keyIcon="@drawable/delete_key"  android:isRepeatable="true"/>
+            android:keyEdgeFlags="right"  android:keyIcon="@drawable/backspace_icon"  android:isRepeatable="true"/>
     </Row>
 
 </Keyboard>
