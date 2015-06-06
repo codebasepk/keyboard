@@ -48,13 +48,13 @@ public class CustomKeyboardView extends KeyboardView {
         ShapeDrawable shape1 = new ShapeDrawable(new RectShape());
         shape1.getPaint().setColor(Color.parseColor(backgroundColor));
         shape1.getPaint().setStyle(Paint.Style.STROKE);
-        shape1.getPaint().setStrokeWidth(getDensityPixels(10));
+        shape1.getPaint().setStrokeWidth(getDensityPixels(5));
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(75);
-        paint.setColor(Color.parseColor(textColor));
-
+        paint.setTextSize(getDip(40));
+        paint.setColor(Color.WHITE);
+        
         List<Keyboard.Key> keys = getKeyboard().getKeys();
         for(Keyboard.Key key: keys) {
             if(key.label != null) {
@@ -65,6 +65,10 @@ public class CustomKeyboardView extends KeyboardView {
                 canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2), paint);
             } else {
                 key.icon.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                shape.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                shape1.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                shape.draw(canvas);
+                shape1.draw(canvas);
                 key.icon.draw(canvas);
             }
         }
@@ -73,5 +77,10 @@ public class CustomKeyboardView extends KeyboardView {
     float getDensityPixels(int pixels) {
         return TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, pixels, getResources().getDisplayMetrics());
+    }
+
+    int getDip(int MY_DIP_VALUE) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                MY_DIP_VALUE, getResources().getDisplayMetrics());
     }
 }

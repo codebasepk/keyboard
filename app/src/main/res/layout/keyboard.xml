@@ -1,9 +1,10 @@
 <com.byteshaft.keyboard.CustomKeyboardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/keyboard"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
+    android:paddingRight="240dp"
     android:keyBackground="@drawable/rounded_corner"
     android:keyTextColor="#FFFFFF"
     android:background="#000000"/>
