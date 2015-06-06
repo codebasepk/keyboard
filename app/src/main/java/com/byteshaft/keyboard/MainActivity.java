@@ -39,7 +39,6 @@ public class MainActivity extends InputMethodService implements
         onUpdateExtractingViews(attribute);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String keyboardPreference = preferences.getString("keyboardType", "2");
-
         switch (keyboardPreference) {
             case "1":
                 mKeyboard = new Keyboard(this, R.xml.alpha);
@@ -83,8 +82,6 @@ public class MainActivity extends InputMethodService implements
                 inputConnection.commitText(String.valueOf(code),1);
         }
     }
-
-
 
     @Override public void onPress(int primaryCode) {
         
