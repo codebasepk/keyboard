@@ -46,7 +46,7 @@
     </Row>
 
     <Row>
-        <Key android:codes="32"  android:keyLabel="SPACE" android:keyWidth="14.1%p"
+        <Key android:codes="32"  android:keyLabel="Space" android:keyWidth="14.1%p"
             android:keyEdgeFlags="left" android:isRepeatable="true"/>
         <Key android:codes="122" android:keyLabel="Z" android:keyWidth="9.4%p"/>
         <Key android:codes="120" android:keyLabel="X" android:keyWidth="9.4%p"/>
