@@ -9,9 +9,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.widget.Switch;
-
-import java.util.Arrays;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -24,6 +21,11 @@ public class MainActivity extends InputMethodService implements
     public View onCreateInputView() {
         mKeyboardView = (KeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboardView.setOnKeyboardActionListener(this);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String textColor = preferences.getString("textColor", "#ffffff");
+        String buttonColor = preferences.getString("buttonColor", "#000000");
+        String backgroundColor = preferences.getString("backgroundColor", "#000000");
         return mKeyboardView;
     }
 
@@ -31,7 +33,8 @@ public class MainActivity extends InputMethodService implements
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String keyboardPreference = preferences.getString("keyboardkey", "2");
+        String keyboardPreference = preferences.getString("keyboardType", "2");
+
 
         switch (keyboardPreference ) {
             case "1":
@@ -43,7 +46,6 @@ public class MainActivity extends InputMethodService implements
             case "3":
                 mKeyboard = new Keyboard(this, R.xml.numeric);
                 break;
-
         }
     }
 
