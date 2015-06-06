@@ -1,12 +1,15 @@
 package com.byteshaft.keyboard;
 
+import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.widget.Switch;
 
 import java.util.Arrays;
 
@@ -27,16 +30,20 @@ public class MainActivity extends InputMethodService implements
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
-        switch (attribute.inputType & EditorInfo.TYPE_MASK_CLASS) {
-            case EditorInfo.TYPE_CLASS_NUMBER:
-                mKeyboard = new Keyboard(this, R.xml.numeric);
-                break;
-            case EditorInfo.TYPE_CLASS_TEXT:
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String keyboardPreference = preferences.getString("keyboardkey", "2");
+
+        switch (keyboardPreference ) {
+            case "1":
                 mKeyboard = new Keyboard(this, R.xml.alpha);
                 break;
-            default:
+            case "2":
                 mKeyboard = new Keyboard(this, R.xml.alphanumaric);
                 break;
+            case "3":
+                mKeyboard = new Keyboard(this, R.xml.numeric);
+                break;
+
         }
     }
 

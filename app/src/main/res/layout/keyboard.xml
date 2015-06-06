@@ -5,5 +5,5 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:keyBackground="@drawable/rounded_corner"
-    android:keyTextColor="@color/key_color"
-    android:background="@color/keyboard_background"/>
+    android:keyTextColor="#FFFFFF"
+    android:background="#000000"/>

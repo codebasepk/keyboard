@@ -54,7 +54,7 @@
         <Key android:codes="110" android:keyLabel="N"/>
         <Key android:codes="109" android:keyLabel="M"/>
         <Key android:codes="-5"  android:keyWidth="15%p" android:isRepeatable="true"
-            android:keyIcon="@drawable/delete_key" android:keyEdgeFlags="right"/>
+            android:keyIcon="@drawable/backspace_icon" android:keyEdgeFlags="right"/>
     </Row>
 
 </Keyboard>
