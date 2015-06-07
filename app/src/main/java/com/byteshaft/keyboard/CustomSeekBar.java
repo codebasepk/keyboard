@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
- class CustomSeekBar extends ListPreference implements SeekBar.OnSeekBarChangeListener,
+import java.util.UnknownFormatConversionException;
+
+class CustomSeekBar extends ListPreference implements SeekBar.OnSeekBarChangeListener,
          View.OnClickListener {
 
      private static final String androidns = "http://schemas.android.com/apk/res/android";
@@ -46,9 +48,14 @@ import android.widget.TextView;
          mSeekBar = new SeekBar(mContext);
          mSeekBar.setOnSeekBarChangeListener(this);
          layout.addView(mSeekBar, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-         String previousSeekPosition = getPersistedString("sound");
-         int intValue = Integer.parseInt(previousSeekPosition.replaceAll("[^0-9]", ""));
-         mSeekBarProgress = intValue;
+
+         try {
+             String previousSeekPosition = getPersistedString("sound");
+             int intValue = Integer.parseInt(previousSeekPosition.replaceAll("[^0-9]", ""));
+             mSeekBarProgress = intValue;
+         }catch (UnknownFormatConversionException e) {
+             e.printStackTrace();
+         }
          return layout;
      }
 
@@ -73,7 +80,7 @@ import android.widget.TextView;
      public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
          mTextToDisplay = getEntryFromValue(value);
          mValueText.setText(mTextToDisplay);
-         setSummary(mTextToDisplay);
+         setSummary(String.valueOf(value * 10));
      }
 
      private CharSequence getEntryFromValue(int value) {
