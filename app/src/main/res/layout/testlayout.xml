@@ -13,8 +13,8 @@
         android:hint="text"
         android:ems="10"
         android:id="@+id/editText"
-        android:layout_centerHorizontal="true"/>
-
+        android:layout_centerHorizontal="true">
+    </EditText>
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
