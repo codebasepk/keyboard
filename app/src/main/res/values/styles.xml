@@ -1,7 +1,4 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     </style>
-    <style name="PreferencesTheme">
-        <item name="android:background">#333333</item>
-    </style>
 </resources>
