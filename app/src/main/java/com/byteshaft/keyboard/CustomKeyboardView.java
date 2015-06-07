@@ -15,6 +15,7 @@ import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -24,27 +25,33 @@ public class CustomKeyboardView extends KeyboardView {
     private ShapeDrawable mButtonInner;
     private ShapeDrawable mButtonStroke;
     private Paint mPaint;
+    private SharedPreferences mPreferences;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-    }
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+     }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        SharedPreferences preferences = getPreferenceManager();
-        String textColor = preferences.getString("textColor", "#ffffff");
-        String buttonColor = preferences.getString("buttonColor", "#333333");
-        String backgroundColor = preferences.getString("backgroundColor", "#000000");
+        String textColor = mPreferences.getString("textColor", "#ffffff");
+        String buttonColor = mPreferences.getString("buttonColor", "#333333");
+        String backgroundColor = mPreferences.getString("backgroundColor", "#000000");
+        String popupColor = mPreferences.getString("popupColor", "#a8a8a8");
+
         if (textColor == "") {
             textColor = "#ffffff";
         }
         if (buttonColor == "") {
-            buttonColor = "#83838b";
+            buttonColor = "#333333";
         }
         if (backgroundColor == "") {
             backgroundColor = "#000000";
+        }
+        if (popupColor == "") {
+            popupColor = "#a8a8a8";
         }
         if (!textColor.startsWith("#")) {
             textColor = "#" + textColor;
@@ -55,24 +62,39 @@ public class CustomKeyboardView extends KeyboardView {
         if (!backgroundColor.startsWith("#")) {
             backgroundColor = "#" + backgroundColor;
         }
-        if (textColor.length() < 2) {
-            textColor = "#ffffff";
+        if (!popupColor.startsWith("#")) {
+            popupColor = "#" + popupColor;
         }
-
-        drawKeyboardBackground(canvas, backgroundColor);
+        try {
+            drawKeyboardBackground(canvas, backgroundColor);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mPreferences.edit().putString("backgroundColor", null).apply();
+        }
 
         if (mButtonInner == null) {
             mButtonInner = new ShapeDrawable(new RectShape());
-            mButtonInner.getPaint().setColor(Color.parseColor(buttonColor));
             mButtonInner.getPaint().setStyle(Paint.Style.FILL);
         }
+        try {
+            mButtonInner.getPaint().setColor(Color.parseColor(buttonColor));
+        } catch (Exception e) {
+            e.printStackTrace();
+            mPreferences.edit().putString("buttonColor", null).apply();
+        }
+
 
         if (mButtonStroke == null) {
             mButtonStroke = new ShapeDrawable(new RoundRectShape(getEightEdgeArrayForCurve(), null, null));
-            mButtonStroke.getPaint().setColor(Color.parseColor(backgroundColor));
             mButtonStroke.getPaint().setStyle(Paint.Style.STROKE);
             mButtonStroke.getPaint().setStrokeWidth(getDensityPixels(5));
             mButtonStroke.getPaint().setAntiAlias(true);
+        }
+        try {
+            mButtonStroke.getPaint().setColor(Color.parseColor(backgroundColor));
+        } catch (Exception e) {
+            e.printStackTrace();
+            mPreferences.edit().putString("backgroundColor", null).apply();
         }
 
         if (mPaint == null) {
@@ -80,11 +102,16 @@ public class CustomKeyboardView extends KeyboardView {
             mPaint.setTextAlign(Paint.Align.CENTER);
             int scaledSize = getResources().getDimensionPixelSize(R.dimen.myFontSize);
             mPaint.setTextSize(scaledSize);
-            mPaint.setColor(Color.parseColor(textColor));
         }
-        
+        try {
+            mPaint.setColor(Color.parseColor(textColor));
+        } catch (Exception e) {
+            e.printStackTrace();
+            mPreferences.edit().putString("textColor", null).apply();
+        }
+
         List<Keyboard.Key> keys = getKeyboard().getKeys();
-        for(Keyboard.Key key: keys) {
+        for (Keyboard.Key key : keys) {
             if (key.label.equals("space") || key.label.equals("delete")) {
                 mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
@@ -101,7 +128,12 @@ public class CustomKeyboardView extends KeyboardView {
             }
             if (key.pressed) {
                 ShapeDrawable buttonStateNormal = new ShapeDrawable(new RectShape());
-                buttonStateNormal.getPaint().setColor(Color.RED);
+                try {
+                    buttonStateNormal.getPaint().setColor(Color.parseColor(popupColor));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mPreferences.edit().putString("popupColor", null).apply();
+                }
                 buttonStateNormal.getPaint().setStyle(Paint.Style.FILL);
                 buttonStateNormal.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 buttonStateNormal.draw(canvas);
@@ -128,13 +160,9 @@ public class CustomKeyboardView extends KeyboardView {
         background.draw(canvas);
     }
 
-    private SharedPreferences getPreferenceManager() {
-        return PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
-    }
-
     private float[] getEightEdgeArrayForCurve() {
         int radius = (int) getDensityPixels(4);
-        return new float[] {radius, radius, radius, radius, radius, radius, radius, radius};
+        return new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
     }
 
     private RectF getTextAreaBoundsForKey(Keyboard.Key key) {
