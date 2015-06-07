@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Custom Kiosk Keyboard</string>
-    <string name="simple_ime">KEYBOARD</string>
     <string name="subtype_en_US">English (UK)</string>
     <string name="name">reset_colour_settings</string>
 </resources>
