@@ -8,8 +8,7 @@
         android:entries="@array/listArray"
         android:entryValues="@array/listValues"/>
     <PreferenceCategory
-        android:title="Keyboard Theme"
-        android:summary="Add colour code or leave the field empty for default colour">
+        android:title="Keyboard Theme">
     <EditTextPreference
         android:key="textColor"
         android:title="Text Colour"
