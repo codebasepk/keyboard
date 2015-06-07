@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -26,10 +27,10 @@ public class MainActivity extends InputMethodService implements
         return mKeyboardView;
     }
 
+
     @Override
-    public void onUpdateExtractingViews(EditorInfo ei) {
-        ei.imeOptions |= EditorInfo.IME_FLAG_NO_EXTRACT_UI;
-        super.onUpdateExtractingViews(ei);
+    public boolean onEvaluateFullscreenMode() {
+        return false;
     }
 
     @Override
