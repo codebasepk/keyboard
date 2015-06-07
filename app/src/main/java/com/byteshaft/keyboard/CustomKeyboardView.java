@@ -15,7 +15,6 @@ import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.Toast;
 
 import java.util.List;
 
