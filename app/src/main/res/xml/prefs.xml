@@ -28,13 +28,13 @@
     <CheckBoxPreference
         android:title="Sound on key press"
         android:key="Sound_on_keyPress"
-        android:summaryOn="Enable Sound On KeyPress"
-        android:summaryOff="Disable Sound On KeyPress"/>
+        android:summaryOn="KeyPress sound enabled"
+        android:summaryOff="KeyPress sound disabled"/>
     <CheckBoxPreference
         android:title="Pop-up on key press"
         android:key="Pop_up_on_keyPress"
-        android:summaryOn="Enable Pop-up On KeyPress"
-        android:summaryOff="Disable Pop-up On KeyPress"/>
+        android:summaryOn="KeyPress Pop-up enabled "
+        android:summaryOff=" KeyPress Pop-up disabled"/>
     </PreferenceScreen>
 
 
