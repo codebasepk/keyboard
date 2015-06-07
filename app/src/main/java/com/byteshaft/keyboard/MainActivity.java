@@ -10,7 +10,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -83,12 +82,26 @@ public class MainActivity extends InputMethodService implements
         }
     }
 
-    @Override public void onPress(int primaryCode) {
+    @Override
+    public void onPress(int primaryCode) {
         boolean KeySound = mPreferences.getBoolean("Sound_on_keyPress", false);
         if (KeySound) {
-            AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-            float vol = (float) 0.5;
-            audioManager.playSoundEffect(AudioManager.FX_KEY_CLICK, vol);
+            AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+            int volumePosition = Integer.parseInt(mPreferences.getString("sound", "5"));
+            float volume = (float) volumePosition / 10;
+            switch(primaryCode){
+                case 32:
+                    am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR, volume);
+                    break;
+                case Keyboard.KEYCODE_DONE:
+                case 10:
+                    am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN, volume);
+                    break;
+                case Keyboard.KEYCODE_DELETE:
+                    am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE, volume);
+                    break;
+                default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD, volume);
+            }
         }
     }
 
