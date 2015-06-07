@@ -25,5 +25,8 @@
         android:key="backgroundColor"
         android:summary="Change the background color of the keyboard"/>
     </PreferenceCategory>
-
-</PreferenceScreen>
+    <CheckBoxPreference
+        android:title="Sound On KeyPress"
+        android:key="Sound_keyPress"
+        android:summaryOn="Enable Sound On KeyPress"/>
+    </PreferenceScreen>
