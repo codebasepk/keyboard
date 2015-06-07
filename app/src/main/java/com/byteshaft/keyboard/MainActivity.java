@@ -10,7 +10,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -89,9 +88,7 @@ public class MainActivity extends InputMethodService implements
         if (KeySound) {
             AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
             int volumePosition = Integer.parseInt(mPreferences.getString("sound", "5"));
-            System.out.println(volumePosition);
             float volume = (float) volumePosition / 10;
-            System.out.println(volume);
             switch(primaryCode){
                 case 32:
                     am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR, volume);
@@ -107,7 +104,6 @@ public class MainActivity extends InputMethodService implements
             }
         }
     }
-
 
     @Override
     public void onRelease(int primaryCode) {
