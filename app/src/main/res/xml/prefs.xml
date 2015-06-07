@@ -24,11 +24,17 @@
         android:key="backgroundColor"
         android:summary="Change the background color of the keyboard"/>
     </PreferenceCategory>
+
     <CheckBoxPreference
         android:title="Sound on key press"
         android:key="Sound_on_keyPress"
         android:summaryOn="KeyPress sound enabled"
         android:summaryOff="KeyPress sound disabled"/>
+
+    <com.byteshaft.keyboard.CustomSeekBar
+        android:defaultValue="0"
+        android:entries="@array/sound_List_Array"
+        android:key="sound"
+        android:title="Key click volume"/>
+
     </PreferenceScreen>
-
-

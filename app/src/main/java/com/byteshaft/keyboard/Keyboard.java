@@ -9,6 +9,5 @@ public class Keyboard extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.testlayout);
-
     }
 }
