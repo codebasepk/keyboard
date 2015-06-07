@@ -24,6 +24,14 @@
         android:title="Background Color"
         android:key="backgroundColor"
         android:summary="Change the background color of the keyboard"/>
+        <com.byteshaft.keyboard.CustomSeekBar
+            android:defaultValue="0"
+            android:entries="@array/sound_List_Array"
+            android:key="sound"
+            android:title="Key click volume"
+            />
+
     </PreferenceCategory>
+
 
 </PreferenceScreen>
