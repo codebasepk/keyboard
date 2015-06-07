@@ -29,11 +29,13 @@
         android:key="popupColor"
         android:summary="Change the colour of the feedback effect"
         android:maxLength="9"/>
-    </PreferenceCategory>
     <Preference
         android:key="resetKey"
         android:title="Reset All Colour Settings"/>
         android:summary="Change the background colour of the keyboard"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Volume Control">
     <CheckBoxPreference
         android:title="Keypress Sound"
         android:key="Sound_on_keyPress"
@@ -45,4 +47,5 @@
         android:entries="@array/sound_List_Array"
         android:key="sound"
         android:title="Keypress Sound Volume"/>
+    </PreferenceCategory>
     </PreferenceScreen>
