@@ -83,7 +83,7 @@ public class MainActivity extends InputMethodService implements
     }
 
     @Override public void onPress(int primaryCode) {
-        boolean KeySound = mPreferences.getBoolean("Sound_keyPress", false);
+        boolean KeySound = mPreferences.getBoolean("Sound_on_keyPress", false);
         if (KeySound) {
             AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
             float vol = (float) 0.5;
