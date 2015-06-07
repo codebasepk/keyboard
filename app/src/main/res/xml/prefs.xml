@@ -14,8 +14,7 @@
     <EditTextPreference
         android:key="textColor"
         android:title="Text Color"
-        android:summary="Change the text color of the keys"
-        android:defaultValue="#"/>
+        android:summary="Change the text color of the keys"/>
     <EditTextPreference
         android:title="Button Color"
         android:key="buttonColor"
