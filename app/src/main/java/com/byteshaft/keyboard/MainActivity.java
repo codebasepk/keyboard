@@ -1,16 +1,15 @@
 package com.byteshaft.keyboard;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.media.AudioManager;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -23,7 +22,6 @@ public class MainActivity extends InputMethodService implements
     public View onCreateInputView() {
         mKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboardView.setOnKeyboardActionListener(this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         return mKeyboardView;
     }
 
@@ -84,7 +82,9 @@ public class MainActivity extends InputMethodService implements
     }
 
     @Override public void onPress(int primaryCode) {
-        
+        AudioManager audioManager = (AudioManager) getSystemService (AUDIO_SERVICE);
+        float vol = (float) 0.5;
+        audioManager.playSoundEffect(AudioManager.FX_KEY_CLICK, vol);
     }
 
     @Override
