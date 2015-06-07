@@ -63,9 +63,9 @@ public class CustomKeyboardView extends KeyboardView {
 
         if (mButtonInner == null) {
             mButtonInner = new ShapeDrawable(new RectShape());
-            mButtonInner.getPaint().setColor(Color.parseColor(buttonColor));
             mButtonInner.getPaint().setStyle(Paint.Style.FILL);
         }
+        mButtonInner.getPaint().setColor(Color.parseColor(buttonColor));
 
         if (mButtonStroke == null) {
             mButtonStroke = new ShapeDrawable(new RoundRectShape(getEightEdgeArrayForCurve(), null, null));
@@ -78,26 +78,28 @@ public class CustomKeyboardView extends KeyboardView {
         if (mPaint == null) {
             mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mPaint.setTextAlign(Paint.Align.CENTER);
-            int scaledSize = getResources().getDimensionPixelSize(R.dimen.myFontSize);
-            mPaint.setTextSize(scaledSize);
             mPaint.setColor(Color.parseColor(textColor));
         }
+        int scaledSize = getResources().getDimensionPixelSize(R.dimen.myFontSize);
+        mPaint.setTextSize(scaledSize);
         
         List<Keyboard.Key> keys = getKeyboard().getKeys();
         for(Keyboard.Key key: keys) {
-            if (key.label.equals("space") || key.label.equals("delete")) {
+            if (key.label.equals("space")) {
                 mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 mButtonInner.draw(canvas);
                 mButtonStroke.draw(canvas);
                 canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2), mPaint);
-            } else if (key.label != null) {
+            } else if (key.label != null && !key.label.equals("←")) {
                 mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 mButtonInner.draw(canvas);
                 mButtonStroke.draw(canvas);
                 RectF bounds = getTextAreaBoundsForKey(key);
                 canvas.drawText(key.label.toString(), bounds.left + mPaint.descent(), bounds.top - mPaint.ascent(), mPaint);
+            } else if (key.label.equals("←")) {
+                drawBackspace(canvas, key, buttonColor);
             }
             if (key.pressed) {
                 ShapeDrawable buttonStateNormal = new ShapeDrawable(new RectShape());
@@ -106,8 +108,10 @@ public class CustomKeyboardView extends KeyboardView {
                 buttonStateNormal.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
                 buttonStateNormal.draw(canvas);
                 mButtonStroke.draw(canvas);
-                if (key.label.equals("space") || key.label.equals("delete")) {
+                if (key.label.equals("space")) {
                     canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2), mPaint);
+                } else if (key.label.equals("←")) {
+                    drawBackspace(canvas, key, backgroundColor);
                 } else {
                     RectF bounds = getTextAreaBoundsForKey(key);
                     canvas.drawText(key.label.toString(), bounds.left + mPaint.descent(), bounds.top - mPaint.ascent(), mPaint);
@@ -145,5 +149,18 @@ public class CustomKeyboardView extends KeyboardView {
         bounds.left += (areaRect.width() - bounds.right) / 2.0f;
         bounds.top += (areaRect.height() - bounds.bottom) / 2.0f;
         return bounds;
+    }
+
+    private void drawBackspace(Canvas canvas, Keyboard.Key key, String color) {
+        mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+        mButtonInner.getPaint().setColor(Color.parseColor(color));
+        mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+        mButtonInner.draw(canvas);
+        mButtonStroke.draw(canvas);
+        float textHeight = mPaint.descent() - mPaint.ascent();
+        float textOffset = (textHeight / 2) - mPaint.descent();
+        RectF bounds = new RectF(key.x, key.y, key.x + key.width, key.y + key.height);
+        mPaint.setTextSize(200);
+        canvas.drawText(key.label.toString(), bounds.centerX(), bounds.centerY() + textOffset + getDensityPixels(10), mPaint);
     }
 }
