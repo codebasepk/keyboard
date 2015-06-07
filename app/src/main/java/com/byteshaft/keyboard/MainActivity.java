@@ -105,9 +105,7 @@ public class MainActivity extends InputMethodService implements
                     break;
                 default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD, volume);
             }
-
         }
-
     }
 
 
