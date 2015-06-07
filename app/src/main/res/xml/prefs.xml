@@ -7,34 +7,43 @@
         android:defaultValue="2"
         android:entries="@array/listArray"
         android:entryValues="@array/listValues"/>
-
     <PreferenceCategory
         android:title="Keyboard Theme"
-        android:summary="Add color code or leave the field empty for default color">
+        android:summary="Add colour code or leave the field empty for default colour">
     <EditTextPreference
         android:key="textColor"
-        android:title="Text Color"
-        android:summary="Change the text color of the keys"/>
+        android:title="Text Colour"
+        android:summary="Change the text colour of the keys"
+        android:maxLength="9"/>
     <EditTextPreference
-        android:title="Button Color"
+        android:title="Button Colour"
         android:key="buttonColor"
-        android:summary="Change the color of the keys"/>
+        android:summary="Change the colour of the keys"
+        android:maxLength="9"/>
     <EditTextPreference
-        android:title="Background Color"
+        android:title="Background Colour"
         android:key="backgroundColor"
-        android:summary="Change the background colour of the keyboard"/>
+        android:summary="Change the background colour of the keyboard"
+        android:maxLength="9"/>
+    <EditTextPreference
+        android:title="Keypress-Feedback Colour"
+        android:key="popupColor"
+        android:summary="Change the colour of the feedback effect"
+        android:maxLength="9"/>
     </PreferenceCategory>
-
+    <Preference
+        android:key="resetKey"
+        android:title="Reset All Colour Settings"/>
+        android:summary="Change the background colour of the keyboard"/>
     <CheckBoxPreference
-        android:title="Sound on key press"
+        android:title="Keypress Sound"
         android:key="Sound_on_keyPress"
-        android:summaryOn="KeyPress sound enabled"
-        android:summaryOff="KeyPress sound disabled"/>
+        android:summaryOn="Enable Sound On KeyPress"
+        android:summaryOff="Disable Sound On KeyPress"/>
 
     <com.byteshaft.keyboard.CustomSeekBar
         android:defaultValue="0"
         android:entries="@array/sound_List_Array"
         android:key="sound"
         android:title="Key click volume"/>
-
     </PreferenceScreen>
