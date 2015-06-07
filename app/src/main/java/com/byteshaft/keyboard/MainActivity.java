@@ -1,6 +1,5 @@
 package com.byteshaft.keyboard;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
@@ -10,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -23,7 +21,6 @@ public class MainActivity extends InputMethodService implements
     public View onCreateInputView() {
         mKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboardView.setOnKeyboardActionListener(this);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         return mKeyboardView;
     }
 
@@ -84,7 +81,7 @@ public class MainActivity extends InputMethodService implements
     }
 
     @Override public void onPress(int primaryCode) {
-        
+
     }
 
     @Override
