@@ -8,8 +8,7 @@
         android:entries="@array/listArray"
         android:entryValues="@array/listValues"/>
     <PreferenceCategory
-        android:title="Keyboard Theme"
-        android:summary="Add colour code or leave the field empty for default colour">
+        android:title="Keyboard Theme">
     <EditTextPreference
         android:key="textColor"
         android:title="Text Colour"
@@ -38,12 +37,12 @@
     <CheckBoxPreference
         android:title="Keypress Sound"
         android:key="Sound_on_keyPress"
-        android:summaryOn="Enable Sound On KeyPress"
-        android:summaryOff="Disable Sound On KeyPress"/>
+        android:summaryOn="Keypress sound enabled"
+        android:summaryOff="Keypress sound disabled"/>
 
     <com.byteshaft.keyboard.CustomSeekBar
         android:defaultValue="0"
         android:entries="@array/sound_List_Array"
         android:key="sound"
-        android:title="Key click volume"/>
+        android:title="Keypress Sound Volume"/>
     </PreferenceScreen>

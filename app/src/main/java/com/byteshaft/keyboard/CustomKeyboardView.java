@@ -75,8 +75,6 @@ public class CustomKeyboardView extends KeyboardView {
             mButtonInner = new ShapeDrawable(new RectShape());
             mButtonInner.getPaint().setStyle(Paint.Style.FILL);
         }
-        mButtonInner.getPaint().setColor(Color.parseColor(buttonColor));
-
         try {
             mButtonInner.getPaint().setColor(Color.parseColor(buttonColor));
         } catch (Exception e) {
