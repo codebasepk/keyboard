@@ -22,7 +22,7 @@
     <EditTextPreference
         android:title="Background Color"
         android:key="backgroundColor"
-        android:summary="Change the background color of the keyboard"/>
+        android:summary="Change the background colour of the keyboard"/>
     </PreferenceCategory>
 
     <CheckBoxPreference
