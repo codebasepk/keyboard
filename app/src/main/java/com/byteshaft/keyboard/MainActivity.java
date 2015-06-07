@@ -17,6 +17,7 @@ public class MainActivity extends InputMethodService implements
     private CustomKeyboardView mKeyboardView;
     private Keyboard mKeyboard;
     private boolean isCapsLockEnabled;
+    private SharedPreferences mPreferences;
 
     @Override
     public View onCreateInputView() {
@@ -35,8 +36,8 @@ public class MainActivity extends InputMethodService implements
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
         onUpdateExtractingViews(attribute);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String keyboardPreference = preferences.getString("keyboardType", "2");
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String keyboardPreference = mPreferences.getString("keyboardType", "2");
         switch (keyboardPreference) {
             case "1":
                 mKeyboard = new Keyboard(this, R.xml.alpha);
@@ -82,9 +83,12 @@ public class MainActivity extends InputMethodService implements
     }
 
     @Override public void onPress(int primaryCode) {
-        AudioManager audioManager = (AudioManager) getSystemService (AUDIO_SERVICE);
-        float vol = (float) 0.5;
-        audioManager.playSoundEffect(AudioManager.FX_KEY_CLICK, vol);
+        boolean KeySound = mPreferences.getBoolean("Sound_on_keyPress", false);
+        if (KeySound) {
+            AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+            float vol = (float) 0.5;
+            audioManager.playSoundEffect(AudioManager.FX_KEY_CLICK, vol);
+        }
     }
 
     @Override
