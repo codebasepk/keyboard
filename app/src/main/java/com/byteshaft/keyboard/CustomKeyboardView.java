@@ -153,9 +153,9 @@ public class CustomKeyboardView extends KeyboardView {
                 TypedValue.COMPLEX_UNIT_DIP, pixels, getResources().getDisplayMetrics());
     }
 
-    private void drawKeyboardBackground(Canvas canvas, String color) {
+    private void drawKeyboardBackground(Canvas canvas, String colour) {
         ShapeDrawable background = new ShapeDrawable(new RectShape());
-        background.getPaint().setColor(Color.parseColor(color));
+        background.getPaint().setColor(Color.parseColor(colour));
         background.setBounds((int) getX(), (int) getY(), (int) getX() + getWidth(), (int) getY() + getHeight());
         background.draw(canvas);
     }

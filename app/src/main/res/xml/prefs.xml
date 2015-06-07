@@ -34,9 +34,16 @@
     <Preference
         android:key="resetKey"
         android:title="Reset All Colour Settings"/>
+        android:summary="Change the background colour of the keyboard"/>
     <CheckBoxPreference
         android:title="Keypress Sound"
         android:key="Sound_on_keyPress"
         android:summaryOn="Enable Sound On KeyPress"
         android:summaryOff="Disable Sound On KeyPress"/>
+
+    <com.byteshaft.keyboard.CustomSeekBar
+        android:defaultValue="0"
+        android:entries="@array/sound_List_Array"
+        android:key="sound"
+        android:title="Key click volume"/>
     </PreferenceScreen>
