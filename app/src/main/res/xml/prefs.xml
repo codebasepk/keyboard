@@ -13,22 +13,26 @@
         android:key="textColor"
         android:title="Text Colour"
         android:summary="Change the text colour of the keys"
-        android:maxLength="9"/>
+        android:maxLength="6"
+        android:inputType="textFilter" />
     <EditTextPreference
         android:title="Button Colour"
         android:key="buttonColor"
         android:summary="Change the colour of the keys"
-        android:maxLength="9"/>
+        android:maxLength="6"
+        android:inputType="textFilter" />
     <EditTextPreference
         android:title="Background Colour"
         android:key="backgroundColor"
         android:summary="Change the background colour of the keyboard"
-        android:maxLength="9"/>
+        android:maxLength="6"
+        android:inputType="textFilter" />
     <EditTextPreference
         android:title="Keypress-Feedback Colour"
         android:key="popupColor"
         android:summary="Change the colour of the feedback effect"
-        android:maxLength="9"/>
+        android:maxLength="6"
+        android:inputType="textFilter" />
     </PreferenceCategory>
     <Preference
         android:key="resetKey"

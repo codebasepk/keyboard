@@ -6,155 +6,73 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.inputmethodservice.*;
 import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import java.util.List;
 
-public class CustomKeyboardView extends KeyboardView {
+public class CustomKeyboardView extends KeyboardView implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Context mContext;
-    private ShapeDrawable mButtonInner;
-    private ShapeDrawable mButtonStroke;
     private Paint mPaint;
     private SharedPreferences mPreferences;
+    private String mTextColor;
+    private String mButtonColor;
+    private String mBackgroundColor;
+    private String mButtonPressedColor;
+
+    private final String COLOR_WHITE = "#FFFFFF";
+    private final String COLOR_BLACK = "#000000";
+    private final String COLOR_LGREY = "#a8a8a8";
+    private final String COLOR_DGREY = "#333333";
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        PreferenceManager.getDefaultSharedPreferences(mContext).registerOnSharedPreferenceChangeListener(this);
      }
 
     @Override
     public void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        String textColor = mPreferences.getString("textColor", "#ffffff");
-        String buttonColor = mPreferences.getString("buttonColor", "#333333");
-        String backgroundColor = mPreferences.getString("backgroundColor", "#000000");
-        String popupColor = mPreferences.getString("popupColor", "#a8a8a8");
+        mTextColor = mPreferences.getString("textColor", COLOR_WHITE);
+        mButtonColor = mPreferences.getString("buttonColor", COLOR_DGREY);
+        mBackgroundColor = mPreferences.getString("backgroundColor", COLOR_BLACK);
+        mButtonPressedColor = mPreferences.getString("popupColor", COLOR_LGREY);
 
-        if (textColor == "") {
-            textColor = "#ffffff";
+        if (!mTextColor.startsWith("#")) {
+            mTextColor = "#" + mTextColor;
         }
-        if (buttonColor == "") {
-            buttonColor = "#333333";
+        if (!mButtonColor.startsWith("#")) {
+            mButtonColor = "#" + mButtonColor;
         }
-        if (backgroundColor == "") {
-            backgroundColor = "#000000";
+        if (!mBackgroundColor.startsWith("#")) {
+            mBackgroundColor = "#" + mBackgroundColor;
         }
-        if (popupColor == "") {
-            popupColor = "#a8a8a8";
-        }
-        if (!textColor.startsWith("#")) {
-            textColor = "#" + textColor;
-        }
-        if (!buttonColor.startsWith("#")) {
-            buttonColor = "#" + buttonColor;
-        }
-        if (!backgroundColor.startsWith("#")) {
-            backgroundColor = "#" + backgroundColor;
-        }
-        if (!popupColor.startsWith("#")) {
-            popupColor = "#" + popupColor;
-        }
-        try {
-            drawKeyboardBackground(canvas, backgroundColor);
-        } catch (Exception e) {
-            e.printStackTrace();
-            mPreferences.edit().putString("backgroundColor", null).apply();
+        if (!mButtonPressedColor.startsWith("#")) {
+            mButtonPressedColor = "#" + mButtonPressedColor;
         }
 
-        if (mButtonInner == null) {
-            mButtonInner = new ShapeDrawable(new RectShape());
-            mButtonInner.getPaint().setStyle(Paint.Style.FILL);
-        }
-        try {
-            mButtonInner.getPaint().setColor(Color.parseColor(buttonColor));
-        } catch (Exception e) {
-            e.printStackTrace();
-            mPreferences.edit().putString("buttonColor", null).apply();
-        }
+        validateSavedColorCode(mTextColor, "textColor");
+        validateSavedColorCode(mButtonColor, "buttonColor");
+        validateSavedColorCode(mBackgroundColor, "backgroundColor");
+        validateSavedColorCode(mButtonPressedColor, "popupColor");
 
-        if (mButtonStroke == null) {
-            mButtonStroke = new ShapeDrawable(new RoundRectShape(getEightEdgeArrayForCurve(), null, null));
-            mButtonStroke.getPaint().setStyle(Paint.Style.STROKE);
-            mButtonStroke.getPaint().setStrokeWidth(getDensityPixels(5));
-            mButtonStroke.getPaint().setAntiAlias(true);
-        }
-
-        try {
-            mButtonStroke.getPaint().setColor(Color.parseColor(backgroundColor));
-        } catch (Exception e) {
-            e.printStackTrace();
-            mPreferences.edit().putString("backgroundColor", null).apply();
-        }
-
-        if (mPaint == null) {
-            mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            mPaint.setTextAlign(Paint.Align.CENTER);
-            int scaledSize = getResources().getDimensionPixelSize(R.dimen.myFontSize);
-            mPaint.setTextSize(scaledSize);
-        }
-        try {
-            mPaint.setColor(Color.parseColor(textColor));
-        } catch (Exception e) {
-            e.printStackTrace();
-            mPreferences.edit().putString("textColor", null).apply();
-        }
-        int scaledSize = getResources().getDimensionPixelSize(R.dimen.myFontSize);
-        mPaint.setTextSize(scaledSize);
+        drawKeyboardBackground(canvas, mBackgroundColor);
 
         List<Keyboard.Key> keys = getKeyboard().getKeys();
         for (Keyboard.Key key : keys) {
-            if (key.label.equals("space")) {
-                mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                mButtonInner.draw(canvas);
-                mButtonStroke.draw(canvas);
-                canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2) + getDensityPixels(8), mPaint);
-            } else if (key.label != null && !key.label.equals("←")) {
-                mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                mButtonInner.draw(canvas);
-                mButtonStroke.draw(canvas);
-                RectF bounds = getTextAreaBoundsForKey(key);
-                canvas.drawText(key.label.toString(), bounds.left + mPaint.descent(), bounds.top - mPaint.ascent(), mPaint);
-            } else if (key.label.equals("←")) {
-                mButtonInner.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                mButtonStroke.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                mButtonInner.draw(canvas);
-                mButtonStroke.draw(canvas);
-                mPaint.setTextSize(200);
-                canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2) + getDensityPixels(16), mPaint);
+            if (key.label != null) {
+                drawKey(canvas, key, mButtonColor, mBackgroundColor, mTextColor);
             }
             if (key.pressed) {
-                ShapeDrawable buttonStateNormal = new ShapeDrawable(new RectShape());
-                try {
-                    buttonStateNormal.getPaint().setColor(Color.parseColor(popupColor));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mPreferences.edit().putString("popupColor", null).apply();
-                }
-                buttonStateNormal.getPaint().setStyle(Paint.Style.FILL);
-                buttonStateNormal.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                buttonStateNormal.draw(canvas);
-                mButtonStroke.draw(canvas);
-                if (key.label.equals("space")) {
-                    canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2) + getDensityPixels(8), mPaint);
-                } else if (key.label.equals("←")) {
-                    mPaint.setTextSize(200);
-                    canvas.drawText(key.label.toString(), key.x + (key.width / 2), key.y + (key.height / 2) + getDensityPixels(16), mPaint);
-                } else {
-                    RectF bounds = getTextAreaBoundsForKey(key);
-                    canvas.drawText(key.label.toString(), bounds.left + mPaint.descent(), bounds.top - mPaint.ascent(), mPaint);
-                }
+                drawKey(canvas, key, mButtonPressedColor, mBackgroundColor, mTextColor);
             }
         }
     }
@@ -171,18 +89,71 @@ public class CustomKeyboardView extends KeyboardView {
         background.draw(canvas);
     }
 
-    private float[] getEightEdgeArrayForCurve() {
-        int radius = (int) getDensityPixels(4);
-        return new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
+    private void drawKey(Canvas canvas, Keyboard.Key key, String color, String strokeColor, String textColor) {
+        int fontValue = 26;
+        int maxTextSize = (int) getDensityPixels(fontValue);
+        Rect keyRectangle = new Rect(key.x, key.y, key.x + key.width, key.y + key.height);
+
+        if (mPaint == null) {
+            mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        }
+
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(Color.parseColor(color));
+        canvas.drawRect(keyRectangle, mPaint);
+
+        mPaint.setColor(Color.parseColor(strokeColor));
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(getDensityPixels(5));
+        canvas.drawRect(keyRectangle, mPaint);
+
+        mPaint.setColor(Color.parseColor(textColor));
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        mPaint.setTextSize(maxTextSize);
+        mPaint.setStyle(Paint.Style.FILL);
+
+        Rect bounds = new Rect();
+        mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+
+        while (bounds.height() > (keyRectangle.height() / 10) * 8 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
+            fontValue -= 1;
+            mPaint.setTextSize(getDensityPixels(fontValue));
+            mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+        }
+
+        if (key.label.toString().equals("←")) {
+            mPaint.setTextScaleX(2.0f);
+        } else {
+            mPaint.setTextScaleX(1.0f);
+        }
+
+        canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() + mPaint.descent() * 1.5f, mPaint);
     }
 
-    private RectF getTextAreaBoundsForKey(Keyboard.Key key) {
-        Rect areaRect = new Rect(key.x, key.y, key.x + key.width, key.y + key.height);
-        RectF bounds = new RectF(areaRect);
-        bounds.right = mPaint.measureText(key.label.toString(), 0, key.label.toString().length());
-        bounds.bottom = mPaint.descent() - mPaint.ascent();
-        bounds.left += (areaRect.width() - bounds.right) / 2.0f;
-        bounds.top += (areaRect.height() - bounds.bottom) / 2.0f;
-        return bounds;
+    private void validateSavedColorCode(String code, String key) {
+        try {
+            ShapeDrawable shapeDrawable = new ShapeDrawable();
+            shapeDrawable.getPaint().setColor(Color.parseColor(code));
+        } catch (Exception e) {
+            mPreferences.edit().putString(key, null).commit();
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key) {
+            case "textColor":
+                mTextColor = mPreferences.getString("textColor", COLOR_WHITE);
+                break;
+            case "buttonColor":
+                mButtonColor = mPreferences.getString("buttonColor", COLOR_DGREY);
+                break;
+            case "backgroundColor":
+                mBackgroundColor = mPreferences.getString("backgroundColor", COLOR_BLACK);
+                break;
+            case "popupColor":
+                mButtonPressedColor = mPreferences.getString("popupColor", COLOR_LGREY);
+                break;
+        }
     }
 }
