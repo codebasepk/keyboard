@@ -75,7 +75,6 @@ class CustomSeekBar extends ListPreference implements SeekBar.OnSeekBarChangeLis
      public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
          mTextToDisplay = getEntryFromValue(value);
          mValueText.setText(mTextToDisplay);
-         setSummary(String.valueOf(value * 10));
      }
 
      private CharSequence getEntryFromValue(int value) {
