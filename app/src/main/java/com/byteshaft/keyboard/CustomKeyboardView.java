@@ -13,7 +13,6 @@ import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -90,7 +89,7 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
     }
 
     private void drawKey(Canvas canvas, Keyboard.Key key, String color, String strokeColor, String textColor) {
-        int fontValue = 26;
+        int fontValue = 40;
         int maxTextSize = (int) getDensityPixels(fontValue);
         Rect keyRectangle = new Rect(key.x, key.y, key.x + key.width, key.y + key.height);
 
@@ -115,19 +114,44 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
         Rect bounds = new Rect();
         mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
 
-        while (bounds.height() > (keyRectangle.height() / 10) * 8 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
-            fontValue -= 1;
-            mPaint.setTextSize(getDensityPixels(fontValue));
-            mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+        if (isButtonPortrait(key)) {
+            if (key.label.toString().equals("←")) {
+                mPaint.setTextSize(getDensityPixels(fontValue) * 2.0f);
+                while (bounds.height() > (keyRectangle.height() / 10) * 6 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
+                    fontValue -= 1;
+                    mPaint.setTextSize(getDensityPixels(fontValue) * 2.0f);
+                    mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+                }
+            } else {
+                while (bounds.height() > (keyRectangle.height() / 10) * 3 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
+                    fontValue -= 1;
+                    mPaint.setTextSize(getDensityPixels(fontValue));
+                    mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+                }
+            }
+        } else {
+            if (key.label.toString().equals("←")) {
+                mPaint.setTextSize(getDensityPixels(fontValue) * 2.0f);
+                while (bounds.height() > (keyRectangle.height() / 10) * 4 || bounds.width() >= (keyRectangle.width() / 10) * 4) {
+                    fontValue -= 1;
+                    mPaint.setTextSize(getDensityPixels(fontValue) * 2.0f);
+                    mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+                }
+            } else {
+                while (bounds.height() > (keyRectangle.height() / 10) * 6 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
+                    fontValue -= 1;
+                    mPaint.setTextSize(getDensityPixels(fontValue));
+                    mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+                }
+            }
         }
 
         if (key.label.toString().equals("←")) {
-            mPaint.setTextScaleX(2.0f);
+            canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() + (mPaint.descent() / 2 * getDensityPixels(1)), mPaint);
         } else {
-            mPaint.setTextScaleX(1.0f);
+            mPaint.setTextSize(getDensityPixels(fontValue));
+            canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() + mPaint.descent() * 1.5f, mPaint);
         }
-
-        canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() + mPaint.descent() * 1.5f, mPaint);
     }
 
     private void validateSavedColorCode(String code, String key) {
@@ -155,5 +179,9 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
                 mButtonPressedColor = mPreferences.getString("popupColor", COLOR_LGREY);
                 break;
         }
+    }
+
+    private boolean isButtonPortrait(Keyboard.Key key) {
+        return key.height > key.width;
     }
 }
