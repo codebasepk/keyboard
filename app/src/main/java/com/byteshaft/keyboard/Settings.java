@@ -13,12 +13,18 @@ import android.widget.Toast;
 public class Settings extends PreferenceActivity {
 
     private Preference myPrefs;
+    private Preference mSeekBarPrefrence;
+    SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.prefs);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         myPrefs = findPreference("resetKey");
+        mSeekBarPrefrence = findPreference("sound");
+        String seekPosition = mPreferences.getString("sound", "5");
+        mSeekBarPrefrence.setSummary(String.valueOf(Integer.valueOf(seekPosition) * 10));
         myPrefs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -27,7 +33,6 @@ public class Settings extends PreferenceActivity {
                 alertDialog.setCancelable(true);
                 alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         mPreferences.edit().putString("textColor", null).apply();
                         mPreferences.edit().putString("buttonColor", null).apply();
                         mPreferences.edit().putString("backgroundColor", null).apply();
@@ -45,6 +50,8 @@ public class Settings extends PreferenceActivity {
                 return false;
             }
         });
+
+
     }
 
 }

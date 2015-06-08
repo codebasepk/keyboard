@@ -8,7 +8,7 @@
         android:entries="@array/listArray"
         android:entryValues="@array/listValues"/>
     <PreferenceCategory
-        android:title="Keyboard Theme">
+        android:title="Keyboard theme">
     <EditTextPreference
         android:key="textColor"
         android:title="Text Colour"
@@ -38,7 +38,7 @@
         android:key="resetKey"
         android:title="Reset All Colour Settings"/>
     <PreferenceCategory
-        android:title="Volume Control">
+        android:title="Volume control">
     <CheckBoxPreference
         android:title="Keypress Sound"
         android:key="Sound_on_keyPress"
