@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Choose keyboard">
+
+    <Preference
+        android:key="choose_keyboard"
+        android:title="Change default keyboard"/>
+    </PreferenceCategory>
+
     <ListPreference
         android:title="Keyboard Type"
         android:summary="Select the type of keyboard"
