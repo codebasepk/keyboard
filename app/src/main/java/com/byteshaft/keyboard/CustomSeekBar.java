@@ -14,8 +14,7 @@ import android.widget.TextView;
 
 import java.util.UnknownFormatConversionException;
 
-class CustomSeekBar extends ListPreference implements SeekBar.OnSeekBarChangeListener,
-         View.OnClickListener {
+class CustomSeekBar extends ListPreference implements SeekBar.OnSeekBarChangeListener {
 
      private static final String androidns = "http://schemas.android.com/apk/res/android";
      private SeekBar mSeekBar;
@@ -47,15 +46,11 @@ class CustomSeekBar extends ListPreference implements SeekBar.OnSeekBarChangeLis
          layout.addView(mValueText, params);
          mSeekBar = new SeekBar(mContext);
          mSeekBar.setOnSeekBarChangeListener(this);
-         layout.addView(mSeekBar, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-         try {
+         layout.addView(mSeekBar, new LinearLayout.LayoutParams(LinearLayout.
+                 LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
              String previousSeekPosition = getPersistedString("sound");
              int intValue = Integer.parseInt(previousSeekPosition.replaceAll("[^0-9]", ""));
              mSeekBarProgress = intValue;
-         }catch (UnknownFormatConversionException e) {
-             e.printStackTrace();
-         }
          return layout;
      }
 
@@ -80,7 +75,6 @@ class CustomSeekBar extends ListPreference implements SeekBar.OnSeekBarChangeLis
      public void onProgressChanged(SeekBar seek, int value, boolean fromTouch) {
          mTextToDisplay = getEntryFromValue(value);
          mValueText.setText(mTextToDisplay);
-         setSummary(String.valueOf(value * 10));
      }
 
      private CharSequence getEntryFromValue(int value) {
@@ -100,16 +94,28 @@ class CustomSeekBar extends ListPreference implements SeekBar.OnSeekBarChangeLis
      public void showDialog(Bundle state) {
          super.showDialog(state);
          Button positiveButton = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
-         positiveButton.setOnClickListener(this);
-     }
-
-     @Override
-     public void onClick(View v) {
-         if (shouldPersist()) {
-             final int progressChoice = mSeekBar.getProgress();
-             setValueIndex(progressChoice);
-             persistString(String.valueOf(progressChoice));
-         }
-         getDialog().dismiss();
+         Button negativeButton = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEGATIVE);
+         positiveButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 if (shouldPersist()) {
+                     final int progressChoice = mSeekBar.getProgress();
+                     setValueIndex(progressChoice);
+                     persistString(String.valueOf(progressChoice));
+                     String lastKnownPosition = getPersistedString("sound");
+                     setSummary(String.valueOf(Integer.valueOf(lastKnownPosition) * 10));
+                 }
+                 getDialog().dismiss();
+             }
+         });
+         negativeButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 System.out.println("OK");
+                 String lastKnownPosition = getPersistedString("sound");
+                 setSummary(String.valueOf(Integer.valueOf(lastKnownPosition) * 10));
+                 getDialog().dismiss();;
+             }
+         });
      }
  }
