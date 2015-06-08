@@ -127,10 +127,7 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
             mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
         }
 
-        mPaint.setTextScaleX(1.0f);
-
         canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() - bounds.exactCenterY(), mPaint);
-//        canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() + mPaint.descent() * 1.5f, mPaint);
     }
 
     private void drawBackspace(Canvas canvas, Keyboard.Key key, String color, String strokeColor, String textColor) {
