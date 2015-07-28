@@ -6,10 +6,20 @@
         <item>Numeric</item>
     </string-array>
 
+    <string-array name="listArray2">
+        <item>Lowercase</item>
+        <item>Uppercase</item>
+    </string-array>
+
     <string-array name="listValues">
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <string-array name="listValues2">
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="sound_List_Array">

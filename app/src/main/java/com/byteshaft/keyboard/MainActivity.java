@@ -6,10 +6,15 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.Objects;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -38,6 +43,7 @@ public class MainActivity extends InputMethodService implements
         onUpdateExtractingViews(attribute);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String keyboardPreference = mPreferences.getString("keyboardType", "2");
+
         switch (keyboardPreference) {
             case "1":
                 mKeyboard = new Keyboard(this, R.xml.alpha);
@@ -74,10 +80,19 @@ public class MainActivity extends InputMethodService implements
                 inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 break;
             default:
+                String letterPreference = mPreferences.getString("letter_case", "1");
+                if (Objects.equals(letterPreference, "1")) {
+                    isCapsLockEnabled = false;
+                } else if (Objects.equals(letterPreference, "2")) {
+                    isCapsLockEnabled = true;
+                }
                 char code = (char) primaryCode;
                 if(Character.isLetter(code) && isCapsLockEnabled){
                     code = Character.toUpperCase(code);
+                } else if (Character.isLetter(code)) {
+                    code = Character.toLowerCase(code);
                 }
+                Log.i("FFFF", String.valueOf(code));
                 inputConnection.commitText(String.valueOf(code),1);
         }
     }
