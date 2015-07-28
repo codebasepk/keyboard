@@ -66,12 +66,19 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
         drawKeyboardBackground(canvas, mBackgroundColor);
 
         List<Keyboard.Key> keys = getKeyboard().getKeys();
+
         for (Keyboard.Key key : keys) {
-            if (key.label != null) {
+            if (key.label != null && !key.label.toString().equals("←")) {
                 drawKey(canvas, key, mButtonColor, mBackgroundColor, mTextColor);
+            } else {
+                drawBackspace(canvas, key, mButtonColor, mBackgroundColor, mTextColor);
             }
             if (key.pressed) {
-                drawKey(canvas, key, mButtonPressedColor, mBackgroundColor, mTextColor);
+                if (key.label != null && !key.label.toString().equals("←")) {
+                    drawKey(canvas, key, mButtonPressedColor, mBackgroundColor, mTextColor);
+                } else {
+                    drawBackspace(canvas, key, mButtonPressedColor, mBackgroundColor, mTextColor);
+                }
             }
         }
     }
@@ -114,44 +121,49 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
         Rect bounds = new Rect();
         mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
 
-        if (isButtonPortrait(key)) {
-            if (key.label.toString().equals("←")) {
-                mPaint.setTextSize(getDensityPixels(fontValue) * 2.0f);
-                while (bounds.height() > (keyRectangle.height() / 10) * 6 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
-                    fontValue -= 1;
-                    mPaint.setTextSize(getDensityPixels(fontValue) * 2.0f);
-                    mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
-                }
-            } else {
-                while (bounds.height() > (keyRectangle.height() / 10) * 3 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
-                    fontValue -= 1;
-                    mPaint.setTextSize(getDensityPixels(fontValue));
-                    mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
-                }
-            }
-        } else {
-            if (key.label.toString().equals("←")) {
-                mPaint.setTextSize(getDensityPixels(fontValue) * 2.0f);
-                while (bounds.height() > (keyRectangle.height() / 10) * 4 || bounds.width() >= (keyRectangle.width() / 10) * 4) {
-                    fontValue -= 1;
-                    mPaint.setTextSize(getDensityPixels(fontValue) * 2.0f);
-                    mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
-                }
-            } else {
-                while (bounds.height() > (keyRectangle.height() / 10) * 6 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
-                    fontValue -= 1;
-                    mPaint.setTextSize(getDensityPixels(fontValue));
-                    mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
-                }
-            }
+        while (bounds.height() > (keyRectangle.height() / 10) * 3 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
+            fontValue -= 1;
+            mPaint.setTextSize(getDensityPixels(fontValue));
+            mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
         }
 
-        if (key.label.toString().equals("←")) {
-            canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() + (mPaint.descent() / 2 * getDensityPixels(1)), mPaint);
-        } else {
-            mPaint.setTextSize(getDensityPixels(fontValue));
-            canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() + mPaint.descent() * 1.5f, mPaint);
+        canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() - bounds.exactCenterY(), mPaint);
+    }
+
+    private void drawBackspace(Canvas canvas, Keyboard.Key key, String color, String strokeColor, String textColor) {
+        int fontValue = 140;
+        int maxTextSize = (int) getDensityPixels(fontValue);
+        Rect keyRectangle = new Rect(key.x, key.y, key.x + key.width, key.y + key.height);
+
+        if (mPaint == null) {
+            mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         }
+
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(Color.parseColor(color));
+        canvas.drawRect(keyRectangle, mPaint);
+
+        mPaint.setColor(Color.parseColor(strokeColor));
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(getDensityPixels(5));
+        canvas.drawRect(keyRectangle, mPaint);
+
+        mPaint.setColor(Color.parseColor(textColor));
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        mPaint.setTextSize(maxTextSize);
+        mPaint.setStyle(Paint.Style.FILL);
+
+        Rect bounds = new Rect();
+        mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+
+        while (bounds.height() > (keyRectangle.height() / 10) * 6 || bounds.width() >= (keyRectangle.width() / 10) * 9) {
+            fontValue -= 1;
+            mPaint.setTextSize(getDensityPixels(fontValue));
+            mPaint.getTextBounds(key.label.toString(), 0, key.label.length(), bounds);
+        }
+
+        canvas.drawText(key.label.toString(), keyRectangle.centerX(), keyRectangle.centerY() - bounds.exactCenterY(), mPaint);
+
     }
 
     private void validateSavedColorCode(String code, String key) {
