@@ -45,6 +45,20 @@
     <Preference
         android:key="resetKey"
         android:title="Reset All Colour Settings"/>
+
+    <PreferenceCategory
+        android:title="Input Settings">
+
+        <ListPreference
+            android:key="letter_case"
+            android:title="Letter Case"
+            android:summary="Lowercase"
+            android:defaultValue="1"
+            android:entries="@array/listArray2"
+            android:entryValues="@array/listValues2">
+        </ListPreference>
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:title="Volume control">
     <CheckBoxPreference

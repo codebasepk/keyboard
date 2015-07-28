@@ -14,6 +14,7 @@ import android.widget.Toast;
 public class Settings extends PreferenceActivity {
 
     private Preference myPrefs;
+    private Preference mLetterCasePreference;
     private Preference mSeekBarPrefrence;
     private SharedPreferences mPreferences;
     private Preference mDefaultKeyboard;
@@ -27,6 +28,7 @@ public class Settings extends PreferenceActivity {
         myPrefs = findPreference("resetKey");
         mSeekBarPrefrence = findPreference("sound");
         mDefaultKeyboard = findPreference("choose_keyboard");
+        mLetterCasePreference = findPreference("letter_case");
         String seekPosition = mPreferences.getString("sound", "5");
         mSeekBarPrefrence.setSummary(String.valueOf(Integer.valueOf(seekPosition) * 10));
         myPrefs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
