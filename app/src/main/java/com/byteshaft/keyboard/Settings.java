@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 
-public class Settings extends PreferenceActivity {
+public class Settings extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Preference myPrefs;
     private Preference mLetterCasePreference;
@@ -64,9 +64,21 @@ public class Settings extends PreferenceActivity {
                 return false;
             }
         });
-
-
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key) {
+            case "letter_case":
+                String letterCase = mPreferences.getString("letter_case", "1");
+                if (letterCase.equals("1")) {
+                    mLetterCasePreference.setSummary("Lowercase");
+                } else if (letterCase.equals("2")) {
+                    mLetterCasePreference.setSummary("Uppercase");
+                }
+                break;
+        }
+    }
 }
 
