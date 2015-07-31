@@ -6,6 +6,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,11 +24,13 @@ public class MainActivity extends InputMethodService implements
     private Keyboard mKeyboard;
     private boolean isCapsLockEnabled;
     private SharedPreferences mPreferences;
+    static MainActivity instance;
 
     @Override
     public View onCreateInputView() {
         mKeyboardView = (CustomKeyboardView)getLayoutInflater().inflate(R.layout.keyboard, null);
         mKeyboardView.setOnKeyboardActionListener(this);
+        instance = this;
         return mKeyboardView;
     }
 
@@ -41,24 +44,27 @@ public class MainActivity extends InputMethodService implements
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
         onUpdateExtractingViews(attribute);
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String keyboardPreference = mPreferences.getString("keyboardType", "2");
-
-        switch (keyboardPreference) {
-            case "1":
-                mKeyboard = new Keyboard(this, R.xml.alpha);
-                break;
-            case "2":
-                mKeyboard = new Keyboard(this, R.xml.alphanumaric);
-                break;
-            case "3":
-                mKeyboard = new Keyboard(this, R.xml.numeric);
-                break;
-        }
     }
 
     @Override
     public void onStartInputView(EditorInfo info, boolean restarting) {
+        if (AppGlobals.isDebugModeOn()) {
+            mKeyboard = new Keyboard(this, R.xml.debug_mode);
+        } else {
+            mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String keyboardPreference = mPreferences.getString("keyboardType", "2");
+            switch (keyboardPreference) {
+                case "1":
+                    mKeyboard = new Keyboard(this, R.xml.alpha);
+                    break;
+                case "2":
+                    mKeyboard = new Keyboard(this, R.xml.alphanumaric);
+                    break;
+                case "3":
+                    mKeyboard = new Keyboard(this, R.xml.numeric);
+                    break;
+            }
+        }
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboardView.setPreviewEnabled(false);
         mKeyboardView.closing();
@@ -72,6 +78,7 @@ public class MainActivity extends InputMethodService implements
                 inputConnection.deleteSurroundingText(1, 0);
                 break;
             case Keyboard.KEYCODE_SHIFT:
+                AppGlobals.setDebugShiftOn(!AppGlobals.isDebugShiftOn());
                 isCapsLockEnabled = !isCapsLockEnabled;
                 mKeyboard.setShifted(isCapsLockEnabled);
                 mKeyboardView.invalidateAllKeys();
@@ -80,11 +87,13 @@ public class MainActivity extends InputMethodService implements
                 inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 break;
             default:
-                String letterPreference = mPreferences.getString("letter_case", "1");
-                if (Objects.equals(letterPreference, "1")) {
-                    isCapsLockEnabled = false;
-                } else if (Objects.equals(letterPreference, "2")) {
-                    isCapsLockEnabled = true;
+                if (!AppGlobals.isDebugModeOn()) {
+                    String letterPreference = mPreferences.getString("letter_case", "1");
+                    if (Objects.equals(letterPreference, "1")) {
+                        isCapsLockEnabled = false;
+                    } else if (Objects.equals(letterPreference, "2")) {
+                        isCapsLockEnabled = true;
+                    }
                 }
                 char code = (char) primaryCode;
                 if(Character.isLetter(code) && isCapsLockEnabled){

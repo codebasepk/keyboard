@@ -1,5 +1,6 @@
 package com.byteshaft.keyboard;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -13,8 +14,12 @@ import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CustomKeyboardView extends KeyboardView implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -25,11 +30,11 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
     private String mButtonColor;
     private String mBackgroundColor;
     private String mButtonPressedColor;
-
     private final String COLOR_WHITE = "#FFFFFF";
     private final String COLOR_BLACK = "#000000";
     private final String COLOR_LGREY = "#a8a8a8";
     private final String COLOR_DGREY = "#333333";
+    private Timer mTimer;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -39,11 +44,51 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
      }
 
     @Override
+    public boolean onTouchEvent(MotionEvent me) {
+        switch (me.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                List<Keyboard.Key> keys = getKeyboard().getKeys();
+                for (Keyboard.Key key : keys) {
+                    if (key.label.toString().equals("←")) {
+
+                    }
+                }
+                mTimer = new Timer();
+                mTimer.schedule(getServiceStopTimerTask(), AppGlobals.FIVE_SECONDS);
+                break;
+            case MotionEvent.ACTION_UP:
+                mTimer.cancel();
+                break;
+        }
+        return super.onTouchEvent(me);
+    }
+
+    TimerTask getServiceStopTimerTask() {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                AppGlobals.setDebugModeOn(!AppGlobals.isDebugModeOn());
+                MainActivity.instance.requestHideSelf(0);
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+            }
+        };
+    }
+
+    @Override
     public void onDraw(Canvas canvas) {
-        mTextColor = mPreferences.getString("textColor", COLOR_WHITE);
-        mButtonColor = mPreferences.getString("buttonColor", COLOR_DGREY);
-        mBackgroundColor = mPreferences.getString("backgroundColor", COLOR_BLACK);
-        mButtonPressedColor = mPreferences.getString("popupColor", COLOR_LGREY);
+        if (AppGlobals.isDebugModeOn()) {
+            mTextColor = "#000000";
+            mButtonColor = "#FFFFFF";
+            mBackgroundColor = "#FF0000";
+            mButtonPressedColor = "#006969";
+        } else {
+            mTextColor = mPreferences.getString("textColor", COLOR_WHITE);
+            mButtonColor = mPreferences.getString("buttonColor", COLOR_DGREY);
+            mBackgroundColor = mPreferences.getString("backgroundColor", COLOR_BLACK);
+            mButtonPressedColor = mPreferences.getString("popupColor", COLOR_LGREY);
+        }
 
         if (!mTextColor.startsWith("#")) {
             mTextColor = "#" + mTextColor;
@@ -68,8 +113,14 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
         List<Keyboard.Key> keys = getKeyboard().getKeys();
 
         for (Keyboard.Key key : keys) {
-            if (key.label != null && !key.label.toString().equals("←")) {
+            if (key.label != null && !key.label.toString().equals("←") && !key.label.toString().equals("shift")) {
                 drawKey(canvas, key, mButtonColor, mBackgroundColor, mTextColor);
+            } else if (key.label != null && key.label.toString().equals("shift")) {
+                if (AppGlobals.isDebugShiftOn()) {
+                    drawBackspace(canvas, key, "#006969", mBackgroundColor, mTextColor);
+                } else {
+                    drawBackspace(canvas, key, mButtonColor, mBackgroundColor, mTextColor);
+                }
             } else {
                 drawBackspace(canvas, key, mButtonColor, mBackgroundColor, mTextColor);
             }
@@ -191,9 +242,5 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
                 mButtonPressedColor = mPreferences.getString("popupColor", COLOR_LGREY);
                 break;
         }
-    }
-
-    private boolean isButtonPortrait(Keyboard.Key key) {
-        return key.height > key.width;
     }
 }

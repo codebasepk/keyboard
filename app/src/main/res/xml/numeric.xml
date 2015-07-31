@@ -25,7 +25,7 @@
     <Row>
         <Key android:codes="47" android:keyLabel="/" android:horizontalGap="27.5%p"/>
         <Key android:codes="48" android:keyLabel="0"/>
-        <Key android:codes="-5" android:keyLabel="←" android:isRepeatable="true"/>
+        <Key android:codes="-5" android:keyLabel="←" android:isRepeatable="false"/>
     </Row>
 
 </Keyboard>
