@@ -54,7 +54,7 @@
         <Key android:codes="110" android:keyLabel="N"/>
         <Key android:codes="109" android:keyLabel="M"/>
         <Key android:codes="-5"  android:keyWidth="20%p" android:keyLabel="←"
-            android:isRepeatable="true" android:keyEdgeFlags="right"/>
+            android:isRepeatable="false" android:keyEdgeFlags="right"/>
     </Row>
 
 </Keyboard>

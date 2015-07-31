@@ -1,9 +1,36 @@
 <Keyboard
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyHeight="8.8%p"
     android:keyWidth="10%p"
     android:horizontalGap="0px"
-    android:verticalGap="0px"
-    android:keyHeight="15.2%p" >
+    android:verticalGap="0px">
+
+    <Row>
+        <Key android:codes="64" android:keyLabel="\@" android:keyEdgeFlags="left"/>
+        <Key android:codes="35" android:keyLabel="#"/>
+        <Key android:codes="46" android:keyLabel="."/>
+        <Key android:codes="63" android:keyLabel="\?"/>
+        <Key android:codes="33" android:keyLabel="!"/>
+        <Key android:codes="58" android:keyLabel=":"/>
+        <Key android:codes="44" android:keyLabel=","/>
+        <Key android:codes="47" android:keyLabel="/"/>
+        <Key android:codes="46" android:keyLabel="="/>
+        <Key android:codes="74" android:keyLabel=";" android:keyEdgeFlags="right"/>
+
+    </Row>
+
+    <Row>
+        <Key android:codes="49" android:keyLabel="1" android:keyEdgeFlags="left"/>
+        <Key android:codes="50" android:keyLabel="2"/>
+        <Key android:codes="51" android:keyLabel="3"/>
+        <Key android:codes="52" android:keyLabel="4"/>
+        <Key android:codes="53" android:keyLabel="5"/>
+        <Key android:codes="54" android:keyLabel="6"/>
+        <Key android:codes="55" android:keyLabel="7"/>
+        <Key android:codes="56" android:keyLabel="8"/>
+        <Key android:codes="57" android:keyLabel="9"/>
+        <Key android:codes="48" android:keyLabel="0" android:keyEdgeFlags="right"/>
+    </Row>
 
     <Row>
         <Key android:codes="113" android:keyLabel="Q" android:keyEdgeFlags="left"/>
@@ -32,7 +59,7 @@
 
     <Row>
         <Key android:codes="32"  android:keyLabel="space" android:keyWidth="10%p"
-            android:isRepeatable="true"/>
+            android:keyEdgeFlags="left" android:isRepeatable="true"/>
         <Key android:codes="122" android:keyLabel="Z"/>
         <Key android:codes="120" android:keyLabel="X"/>
         <Key android:codes="99"  android:keyLabel="C"/>
@@ -40,7 +67,9 @@
         <Key android:codes="98"  android:keyLabel="B"/>
         <Key android:codes="110" android:keyLabel="N"/>
         <Key android:codes="109" android:keyLabel="M"/>
-        <Key android:codes="-5"  android:keyLabel="←" android:keyWidth="20%p" />
+        <Key android:codes="-1" android:keyLabel="shift"/>
+        <Key android:codes="-5"  android:keyWidth="10%p" android:keyLabel="←"
+            android:isRepeatable="false" android:keyEdgeFlags="right"/>
     </Row>
 
 </Keyboard>
