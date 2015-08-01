@@ -89,9 +89,9 @@ public class MainActivity extends InputMethodService implements
             default:
                 if (!AppGlobals.isDebugModeOn()) {
                     String letterPreference = mPreferences.getString("letter_case", "1");
-                    if (Objects.equals(letterPreference, "1")) {
+                    if (letterPreference.equals("1")) {
                         isCapsLockEnabled = false;
-                    } else if (Objects.equals(letterPreference, "2")) {
+                    } else if (letterPreference.equals("2")) {
                         isCapsLockEnabled = true;
                     }
                 }
