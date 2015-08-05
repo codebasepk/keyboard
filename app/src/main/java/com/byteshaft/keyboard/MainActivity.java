@@ -97,7 +97,9 @@ public class MainActivity extends InputMethodService implements
                 inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 break;
             default:
-                if (!AppGlobals.isDebugModeOn()) {
+                if (AppGlobals.isDebugModeOn()) {
+                    isCapsLockEnabled = AppGlobals.isDebugShiftOn();
+                } else {
                     String letterPreference = mPreferences.getString("letter_case", "1");
                     if (letterPreference.equals("1")) {
                         isCapsLockEnabled = false;
