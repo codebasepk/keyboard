@@ -14,12 +14,8 @@ import android.inputmethodservice.Keyboard;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.MotionEvent;
-import android.view.inputmethod.InputMethodManager;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class CustomKeyboardView extends KeyboardView implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -30,10 +26,10 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
     private String mButtonColor;
     private String mBackgroundColor;
     private String mButtonPressedColor;
-    private final String COLOR_WHITE = "#FFFFFF";
-    private final String COLOR_BLACK = "#000000";
-    private final String COLOR_LGREY = "#a8a8a8";
-    private final String COLOR_DGREY = "#333333";
+    private final String COLOR_TEXT_DEFAULT = "#000000";
+    private final String COLOR_BACKGROUND_DEFAULT = "#77253C";
+    private final String COLOR_BUTTON_PRESSED_DEFAULT = "#06F902";
+    private final String COLOR_BUTTON_DEFAULT = "#FFFFFF";
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -50,10 +46,10 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
             mBackgroundColor = "#FF0000";
             mButtonPressedColor = "#006969";
         } else {
-            mTextColor = mPreferences.getString("textColor", COLOR_WHITE);
-            mButtonColor = mPreferences.getString("buttonColor", COLOR_DGREY);
-            mBackgroundColor = mPreferences.getString("backgroundColor", COLOR_BLACK);
-            mButtonPressedColor = mPreferences.getString("popupColor", COLOR_LGREY);
+            mTextColor = mPreferences.getString("textColor", COLOR_TEXT_DEFAULT);
+            mButtonColor = mPreferences.getString("buttonColor", COLOR_BUTTON_DEFAULT);
+            mBackgroundColor = mPreferences.getString("backgroundColor", COLOR_BACKGROUND_DEFAULT);
+            mButtonPressedColor = mPreferences.getString("popupColor", COLOR_BUTTON_PRESSED_DEFAULT);
         }
 
         if (!mTextColor.startsWith("#")) {
@@ -196,16 +192,16 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case "textColor":
-                mTextColor = mPreferences.getString("textColor", COLOR_WHITE);
+                mTextColor = mPreferences.getString("textColor", COLOR_TEXT_DEFAULT);
                 break;
             case "buttonColor":
-                mButtonColor = mPreferences.getString("buttonColor", COLOR_DGREY);
+                mButtonColor = mPreferences.getString("buttonColor", COLOR_BUTTON_DEFAULT);
                 break;
             case "backgroundColor":
-                mBackgroundColor = mPreferences.getString("backgroundColor", COLOR_BLACK);
+                mBackgroundColor = mPreferences.getString("backgroundColor", COLOR_BACKGROUND_DEFAULT);
                 break;
             case "popupColor":
-                mButtonPressedColor = mPreferences.getString("popupColor", COLOR_LGREY);
+                mButtonPressedColor = mPreferences.getString("popupColor", COLOR_BUTTON_PRESSED_DEFAULT);
                 break;
         }
     }
