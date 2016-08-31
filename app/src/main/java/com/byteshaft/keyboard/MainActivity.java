@@ -1,5 +1,6 @@
 package com.byteshaft.keyboard;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
@@ -12,10 +13,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends InputMethodService implements
         KeyboardView.OnKeyboardActionListener {
@@ -25,6 +29,7 @@ public class MainActivity extends InputMethodService implements
     private boolean isCapsLockEnabled;
     private SharedPreferences mPreferences;
     static MainActivity instance;
+    private Timer mTimer;
 
     @Override
     public View onCreateInputView() {
@@ -74,8 +79,13 @@ public class MainActivity extends InputMethodService implements
     public void onKey(int primaryCode, int[] keyCodes) {
         InputConnection inputConnection = getCurrentInputConnection();
         switch(primaryCode){
-            case Keyboard.KEYCODE_DELETE :
-                inputConnection.deleteSurroundingText(1, 0);
+            case Keyboard.KEYCODE_DELETE:
+                mTimer.cancel();
+                if (AppGlobals.isLongPressed()) {
+                    AppGlobals.setIsLongPressed(false);
+                } else {
+                    inputConnection.deleteSurroundingText(1, 0);
+                }
                 break;
             case Keyboard.KEYCODE_SHIFT:
                 AppGlobals.setDebugShiftOn(!AppGlobals.isDebugShiftOn());
@@ -87,7 +97,9 @@ public class MainActivity extends InputMethodService implements
                 inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER));
                 break;
             default:
-                if (!AppGlobals.isDebugModeOn()) {
+                if (AppGlobals.isDebugModeOn()) {
+                    isCapsLockEnabled = AppGlobals.isDebugShiftOn();
+                } else {
                     String letterPreference = mPreferences.getString("letter_case", "1");
                     if (letterPreference.equals("1")) {
                         isCapsLockEnabled = false;
@@ -127,6 +139,26 @@ public class MainActivity extends InputMethodService implements
                 default: am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD, volume);
             }
         }
+
+        switch (primaryCode) {
+            case Keyboard.KEYCODE_DELETE:
+                mTimer = new Timer();
+                mTimer.schedule(getServiceStopTimerTask(), AppGlobals.TEN_SECONDS);
+        }
+    }
+
+    TimerTask getServiceStopTimerTask() {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                AppGlobals.setIsLongPressed(true);
+                AppGlobals.setDebugModeOn(!AppGlobals.isDebugModeOn());
+                MainActivity.instance.requestHideSelf(0);
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+            }
+        };
     }
 
     @Override

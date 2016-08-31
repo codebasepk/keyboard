@@ -34,7 +34,6 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
     private final String COLOR_BLACK = "#000000";
     private final String COLOR_LGREY = "#a8a8a8";
     private final String COLOR_DGREY = "#333333";
-    private Timer mTimer;
 
     public CustomKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -42,39 +41,6 @@ public class CustomKeyboardView extends KeyboardView implements SharedPreference
         mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         PreferenceManager.getDefaultSharedPreferences(mContext).registerOnSharedPreferenceChangeListener(this);
      }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent me) {
-        switch (me.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                List<Keyboard.Key> keys = getKeyboard().getKeys();
-                for (Keyboard.Key key : keys) {
-                    if (key.label.toString().equals("←")) {
-
-                    }
-                }
-                mTimer = new Timer();
-                mTimer.schedule(getServiceStopTimerTask(), AppGlobals.FIVE_SECONDS);
-                break;
-            case MotionEvent.ACTION_UP:
-                mTimer.cancel();
-                break;
-        }
-        return super.onTouchEvent(me);
-    }
-
-    TimerTask getServiceStopTimerTask() {
-        return new TimerTask() {
-            @Override
-            public void run() {
-                AppGlobals.setDebugModeOn(!AppGlobals.isDebugModeOn());
-                MainActivity.instance.requestHideSelf(0);
-                InputMethodManager inputMethodManager = (InputMethodManager)
-                        mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-            }
-        };
-    }
 
     @Override
     public void onDraw(Canvas canvas) {

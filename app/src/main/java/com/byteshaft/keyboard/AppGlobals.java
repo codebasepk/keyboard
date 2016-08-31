@@ -5,9 +5,10 @@ import android.app.Application;
 
 public class AppGlobals extends Application {
 
-    public static final int FIVE_SECONDS = 5000;
+    public static final int TEN_SECONDS = 10000;
     private static boolean sIsDebugModeOn;
     private static boolean sIsDebugShiftOn;
+    private static boolean sLongPressed;
 
     public static void setDebugModeOn(boolean enable) {
         sIsDebugModeOn = enable;
@@ -25,4 +26,11 @@ public class AppGlobals extends Application {
         return sIsDebugShiftOn;
     }
 
+    public static boolean isLongPressed() {
+        return sLongPressed;
+    }
+
+    public static void setIsLongPressed(boolean flag) {
+        sLongPressed = flag;
+    }
 }
