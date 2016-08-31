@@ -7,17 +7,13 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
-import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -100,7 +96,7 @@ public class MainActivity extends InputMethodService implements
                 if (AppGlobals.isDebugModeOn()) {
                     isCapsLockEnabled = AppGlobals.isDebugShiftOn();
                 } else {
-                    String letterPreference = mPreferences.getString("letter_case", "1");
+                    String letterPreference = mPreferences.getString("letter_case", "2");
                     if (letterPreference.equals("1")) {
                         isCapsLockEnabled = false;
                     } else if (letterPreference.equals("2")) {
@@ -120,7 +116,7 @@ public class MainActivity extends InputMethodService implements
 
     @Override
     public void onPress(int primaryCode) {
-        boolean KeySound = mPreferences.getBoolean("Sound_on_keyPress", false);
+        boolean KeySound = mPreferences.getBoolean("Sound_on_keyPress", true);
         if (KeySound) {
             AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
             int volumePosition = Integer.parseInt(mPreferences.getString("sound", "5"));

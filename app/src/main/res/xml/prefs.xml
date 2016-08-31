@@ -52,8 +52,8 @@
         <ListPreference
             android:key="letter_case"
             android:title="Letter Case"
-            android:summary="Lowercase"
-            android:defaultValue="1"
+            android:summary="Uppercase"
+            android:defaultValue="2"
             android:entries="@array/listArray2"
             android:entryValues="@array/listValues2">
         </ListPreference>
@@ -64,11 +64,12 @@
     <CheckBoxPreference
         android:title="Keypress Sound"
         android:key="Sound_on_keyPress"
+        android:defaultValue="true"
         android:summaryOn="Keypress sound enabled"
         android:summaryOff="Keypress sound disabled"/>
 
     <com.byteshaft.keyboard.CustomSeekBar
-        android:defaultValue="0"
+        android:defaultValue="5"
         android:entries="@array/sound_List_Array"
         android:key="sound"
         android:title="Keypress Sound Volume"/>
